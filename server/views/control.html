@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=1000, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Drone Control</title>
+	<style>
+		td {
+			width: 150px;
+			height: 150px;
+			text-align: center;
+			border: 1px solid black;
+			border-radius: 5px;
+			font-size: 20px;
+		}
+		td:hover {
+			background-color: #CCCCCC;
+		}
+	</style>
+</head>
+<body>
+	<table>
+		<tr>
+			<td onclick="fetch('control/counter')">CCW</td>
+			<td onclick="fetch('control/front')">FRONT</td>
+			<td onclick="fetch('control/clockwise')">CW</td>
+
+		</tr>
+		<tr>
+			<td onclick="fetch('control/left')">LEFT</td>
+			<td onclick="fetch('control/stop')">STOP</td>
+			<td onclick="fetch('control/right')">RIGHT</td>
+		</tr>
+		<tr>
+			<td onclick="fetch('control/takeoff')">TAKEOFF</td>
+			<td onclick="fetch('control/back')">BACK</td>
+			<td onclick="fetch('control/land')">LAND</td>
+		</tr>
+	</table>
+</body>
+</html>
