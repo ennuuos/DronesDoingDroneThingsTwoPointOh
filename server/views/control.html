@@ -18,24 +18,38 @@
 			background-color: #CCCCCC;
 		}
 	</style>
+    <script src='fetchControlPage.js'></script>
 </head>
 <body>
+    <label for='droneSelector'>Drone ID</label>
+    <select id='droneSelector'>
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+    </select>
 	<table>
 		<tr>
-			<td onclick="fetch('control/counter')">CCW</td>
-			<td onclick="fetch('control/front')">FRONT</td>
-			<td onclick="fetch('control/clockwise')">CW</td>
+			<td onclick="fetchControlPage('counter')">CCW</td>
+			<td onclick="fetchControlPage('front')">FRONT</td>
+			<td onclick="fetchControlPage('clockwise')">CW</td>
 
 		</tr>
 		<tr>
-			<td onclick="fetch('control/left')">LEFT</td>
-			<td onclick="fetch('control/stop')">STOP</td>
-			<td onclick="fetch('control/right')">RIGHT</td>
+			<td onclick="fetchControlPage('left')">LEFT</td>
+			<td onclick="fetchControlPage('stop')">STOP</td>
+			<td onclick="fetchControlPage('right')">RIGHT</td>
 		</tr>
 		<tr>
-			<td onclick="fetch('control/takeoff')">TAKEOFF</td>
-			<td onclick="fetch('control/back')">BACK</td>
-			<td onclick="fetch('control/land')">LAND</td>
+			<td onclick="fetchControlPage('takeoff')">TAKEOFF</td>
+			<td onclick="fetchControlPage('back')">BACK</td>
+			<td onclick="fetchControlPage('land')">LAND</td>
 		</tr>
 	</table>
 </body>
