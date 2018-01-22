@@ -1,18 +1,36 @@
 const express		= require('express');
 const app				= express();
-var		path			= require("path");
+const	path			= require("path");
+const ping			= require('ping');
 
 const arDrone = require("ar-drone")
 var client = arDrone.createClient();
 
 const speed = 0.2;
 
+var droneAddressPrefix = "192.168.1.10";
+var pingAddress = (addr) => {
+	ping.sys.probe(addr, function(isAlive){
+			var msg = isAlive ? 'drone ' + addr + ' is alive' : 'drone ' + addr + ' is dead';
+			console.log(msg);
+	});
+};
+
+var createClient = (id) => {
+
+};
+
+for(id = 0; id < 10; id++) {
+	pingAddress(droneAddressPrefix + id);
+}
+
+
 app.get('/', (req, res) => {
 	console.log(path.join(__dirname + '/views/control.html'));
 	res.sendFile(path.join(__dirname + '/views/control.html'));
 });
 
-app.get('/control/:param', (req, res) => {
+app.get('/control/:id/:param', (req, res) => {
 	console.log(req.url);
 	controlString = req.params['param'];
 	console.log("The guy clicked the button to " + controlString);
