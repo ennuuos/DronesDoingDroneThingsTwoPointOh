@@ -32,6 +32,7 @@ for(id = 0; id < 10; id++) {
 	pingAddress(id);
 }
 
+app.use(express.static(__dirname + 'views'));
 
 app.get('/', (req, res) => {
 	console.log(path.join(__dirname + '/views/control.html'));
@@ -42,38 +43,39 @@ app.get('/control/:id/:param', (req, res) => {
 	console.log(req.url);
 	controlString = req.params['param'];
 	id = req.params['id'];
-	console.log("The guy clicked the button to " + controlString);
-
-	switch(controlString) {
-		case 'stop':
-			drones[id].stop();
-			break;
-		case 'takeoff':
-			drones[id].takeoff()
-			break;
-		case 'land':
-			drones[id].land();
-			break;
-		case 'left':
-			drones[id].left(speed);
-			break;
-		case 'right':
-			drones[id].right(speed);
-			break;
-		case 'front':
-			drones[id].front(speed);
-			break;
-		case 'back':
-			drones[id].back(speed);
-			break;
-		case 'counter':
-			drones[id].counterClockwise(speed);
-			break;
-		case 'clockwise':
-			drones[id].clockwise(speed);
-			break;
+	if(drones[id] == undefined) {
+		console.log("Id " + id + " is undefined.");
+	} else {
+		switch(controlString) {
+			case 'stop':
+				drones[id].stop();
+				break;
+			case 'takeoff':
+				drones[id].takeoff()
+				break;
+			case 'land':
+				drones[id].land();
+				break;
+			case 'left':
+				drones[id].left(speed);
+				break;
+			case 'right':
+				drones[id].right(speed);
+				break;
+			case 'front':
+				drones[id].front(speed);
+				break;
+			case 'back':
+				drones[id].back(speed);
+				break;
+			case 'counter':
+				drones[id].counterClockwise(speed);
+				break;
+			case 'clockwise':
+				drones[id].clockwise(speed);
+				break;
+		}
 	}
-
 	res.redirect(req.header('Referer'));
 });
 
