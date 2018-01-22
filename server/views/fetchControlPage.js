@@ -9,3 +9,5 @@ const fetchControlPage = (command) => {
       }
     }
 }
+
+setTimeout(window.location.reload.bind(window.location), 1000);

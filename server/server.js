@@ -8,13 +8,11 @@ const ping			= require('ping');
 const arDrone = require("ar-drone")
 var client = arDrone.createClient();
 
-var drones = [];
-var droneids = [];
+var drones = {};
 
 const speed = 0.2;
 
 var droneAddressPrefix = "192.168.1.10";
-
 var address = (id) => {
 	return droneAddressPrefix + id;
 }
@@ -23,19 +21,29 @@ var pingAddress = (id) => {
 	ping.sys.probe(addr, function(isAlive){
 			if(isAlive) {
 				createClient(id);
-				console.log("Drone " + id + " connected");
+			} else {
+				if(drones[id] !== undefined) {
+					delete drones[id];
+					console.log("Drone " + id + " disconnected");
+				}
 			}
-	});
+	}, {'timeout': 1});
 };
 
 var createClient = (id) => {
-	drones[id] = arDrone.createClient({ip: address(id)});
-	droneids.push(id);
+	if(drones[id] === undefined) {
+		console.log("Drone " + id + " connected");
+		drones[id] = arDrone.createClient({ip: address(id)});
+	}
 };
 
-for(id = 0; id < 10; id++) {
-	pingAddress(id);
+
+var pingAddresses = () => {
+	for(id = 0; id < 10; id++) {
+		pingAddress(id);
+	}
 }
+setInterval(pingAddresses, 1000);
 
 // Debug clients
 // createClient(0);
@@ -45,13 +53,11 @@ for(id = 0; id < 10; id++) {
 app.use(express.static(__dirname + 'views'));
 
 app.get('/', (req, res) => {
-	res.render('index', {title: "Drone Control", ids: droneids})
+	res.render('index', {title: "Drone Control", ids: Object.keys(drones)})
 });
 
 app.get('/control/refresh', (req, res) => {
 	console.log("Refreshing")
-	drones = [];
-	droneids = [];
 	for(id = 0; id < 10; id++) {
 		pingAddress(id);
 	}
