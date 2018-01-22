@@ -6,22 +6,30 @@ const ping			= require('ping');
 const arDrone = require("ar-drone")
 var client = arDrone.createClient();
 
+var drones = [];
+
 const speed = 0.2;
 
 var droneAddressPrefix = "192.168.1.10";
-var pingAddress = (addr) => {
+
+var address = (id) => {
+	return droneAddressPrefix + id;
+}
+var pingAddress = (id) => {
+	var addr = address(id);
 	ping.sys.probe(addr, function(isAlive){
 			var msg = isAlive ? 'drone ' + addr + ' is alive' : 'drone ' + addr + ' is dead';
 			console.log(msg);
+			if(isAlive) createClient(id);
 	});
 };
 
 var createClient = (id) => {
-
+	drones[id] = arDrone.createClient({ip: address(id)});
 };
 
 for(id = 0; id < 10; id++) {
-	pingAddress(droneAddressPrefix + id);
+	pingAddress(id);
 }
 
 
@@ -33,35 +41,36 @@ app.get('/', (req, res) => {
 app.get('/control/:id/:param', (req, res) => {
 	console.log(req.url);
 	controlString = req.params['param'];
+	id = req.params['id'];
 	console.log("The guy clicked the button to " + controlString);
 
 	switch(controlString) {
 		case 'stop':
-			client.stop();
+			drones[id].stop();
 			break;
 		case 'takeoff':
-			client.takeoff()
+			drones[id].takeoff()
 			break;
 		case 'land':
-			client.land();
+			drones[id].land();
 			break;
 		case 'left':
-			client.left(speed);
+			drones[id].left(speed);
 			break;
 		case 'right':
-			client.right(speed);
+			drones[id].right(speed);
 			break;
 		case 'front':
-			client.front(speed);
+			drones[id].front(speed);
 			break;
 		case 'back':
-			client.back(speed);
+			drones[id].back(speed);
 			break;
 		case 'counter':
-			client.counterClockwise(speed);
+			drones[id].counterClockwise(speed);
 			break;
 		case 'clockwise':
-			client.clockwise(speed);
+			drones[id].clockwise(speed);
 			break;
 	}
 
