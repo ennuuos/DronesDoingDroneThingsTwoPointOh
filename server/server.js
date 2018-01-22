@@ -1,12 +1,15 @@
+const	path			= require("path");
 const express		= require('express');
 const app				= express();
-const	path			= require("path");
+app.set('view engine', 'pug');
+app.set("views", path.join(__dirname, "views"));
 const ping			= require('ping');
 
 const arDrone = require("ar-drone")
 var client = arDrone.createClient();
 
 var drones = [];
+var droneids = [];
 
 const speed = 0.2;
 
@@ -18,25 +21,40 @@ var address = (id) => {
 var pingAddress = (id) => {
 	var addr = address(id);
 	ping.sys.probe(addr, function(isAlive){
-			var msg = isAlive ? 'drone ' + addr + ' is alive' : 'drone ' + addr + ' is dead';
-			console.log(msg);
-			if(isAlive) createClient(id);
+			if(isAlive) {
+				createClient(id);
+				console.log("Drone " + id + " connected");
+			}
 	});
 };
 
 var createClient = (id) => {
 	drones[id] = arDrone.createClient({ip: address(id)});
+	droneids.push(id);
 };
 
 for(id = 0; id < 10; id++) {
 	pingAddress(id);
 }
 
+// Debug clients
+// createClient(0);
+// createClient(1);
+
+
 app.use(express.static(__dirname + 'views'));
 
 app.get('/', (req, res) => {
-	console.log(path.join(__dirname + '/views/control.html'));
-	res.sendFile(path.join(__dirname + '/views/control.html'));
+	res.render('index', {title: "Drone Control", ids: droneids})
+});
+
+app.get('/control/refresh', (req, res) => {
+	console.log("Refreshing")
+	drones = [];
+	droneids = [];
+	for(id = 0; id < 10; id++) {
+		pingAddress(id);
+	}
 });
 
 app.get('/control/:id/:param', (req, res) => {

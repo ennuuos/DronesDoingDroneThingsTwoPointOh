@@ -1,0 +1,25 @@
+html
+  head
+    title= title
+    style: include style.css
+    script: include fetchControlPage.js
+  body
+    button(onclick="{fetch('control/refresh'); location.reload();}") Refresh
+    table: tr(id='radiotr')
+      each val in ids
+        td
+          input(type='checkbox', name='drone', value=val)
+          label= val
+    table(class='button_table')
+      tr
+        td(onclick="fetchControlPage('counter')") CCW
+        td(onclick="fetchControlPage('front')") FORWARD
+        td(onclick="fetchControlPage('clockwise')") CW
+      tr
+        td(onclick="fetchControlPage('left')") LEFT
+        td(onclick="fetchControlPage('stop')") STOP
+        td(onclick="fetchControlPage('right')") RIGHT
+      tr
+        td(onclick="fetchControlPage('takeoff')") TAKEOFF
+        td(onclick="fetchControlPage('back')") BACKWARD
+        td(onclick="fetchControlPage('land')") LAND

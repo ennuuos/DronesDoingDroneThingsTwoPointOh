@@ -1,7 +1,11 @@
 const fetchControlPage = (command) => {
-    let dropDown = document.getElementById("droneSelector");
-    let droneID = dropDown.options[dropDown.selectedIndex].value;
-    let url = 'control/' + droneID + '/' + command;
-    console.log(url);
-    fetch(url);
+    let radios = document.getElementById("radiotr").getElementsByTagName("input");
+    for(var i = 0; i < radios.length; i++) {
+      radio=radios[i];
+      if(radio.checked) {
+        let url = 'control/' + radio.value + '/' + command;
+        console.log(url);
+        fetch(url);
+      }
+    }
 }
