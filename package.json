@@ -1,0 +1,23 @@
+{
+  "name": "dronesdoingdronethingstwopointoh",
+  "version": "1.0.0",
+  "description": "Just drones doing drone things.",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ennuuos/DronesDoingDroneThingsTwoPointOh.git"
+  },
+  "author": "Travis Valenti (ennuuos)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ennuuos/DronesDoingDroneThingsTwoPointOh/issues"
+  },
+  "homepage": "https://github.com/ennuuos/DronesDoingDroneThingsTwoPointOh#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "pug": "^2.0.0-rc.4"
+  }
+}
