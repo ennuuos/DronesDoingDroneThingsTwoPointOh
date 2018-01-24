@@ -18,7 +18,7 @@ const pingDrone = (id) => {
 const pingAll = () => {
   for(id = 0; id < 10; id++) {
     //DEBUG Turn off for debug
-    //pingDrone(id);
+    pingDrone(id);
   }
 }
 
@@ -83,12 +83,12 @@ const status = () => {
 setInterval(pingAll, 1000);
 
 //DEBUG add for debug
- create(1);
- create(3);
-
- setInterval(()=>{list[1]['battery']+=1}, 1000);
- setTimeout(()=>{ create(2)}, 3000);
- setTimeout(()=>{ remove(3)}, 5000);
+ // create(1);
+ // create(3);
+ //
+ // setInterval(()=>{list[1]['battery']+=1}, 1000);
+ // setTimeout(()=>{ create(2)}, 3000);
+ // setTimeout(()=>{ remove(3)}, 5000);
 
 //DEBUG add for debug
 
