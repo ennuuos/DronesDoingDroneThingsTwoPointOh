@@ -7,7 +7,7 @@ const fetchStatus = () => {
 			if(!(id in list)) {
 				list[id] = {'selected':false};
 				list[id].element = document.createElement('div');
-				document.body.appendChild(list[id].element);
+				document.getElementById("selection_div").appendChild(list[id].element);
 				list[id].element.drone_id = id;
 				list[id].element.addEventListener('click', function(e) {
 					toggleSelect(event.target.drone_id);
@@ -19,7 +19,7 @@ const fetchStatus = () => {
 		for(var id in list) {
 			if(!list.hasOwnProperty(id)) continue;
 			if(!(id in data)) {
-				document.body.removeChild(list[id].element);
+				document.getElementById("selection_div").removeChild(list[id].element);
 				delete list[id];
 			}
 		}
@@ -34,7 +34,11 @@ const toggleSelect = (id) => {
 
 const sendCommand = (command) => {
 	for(var i in list) {
-		if(list[i].selected) fetch(`/control/${i}/${command}`);
+		if(list[i].selected) {
+			let url = `/control/${i}/${command}`;
+			console.log(url);
+			fetch(url);
+		}
 	}
 }
 
