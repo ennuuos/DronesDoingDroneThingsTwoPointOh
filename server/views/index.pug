@@ -1,0 +1,19 @@
+html
+  head
+    title Drones Doing Drone Things
+    link(rel='stylesheet', href='/css/index.css')
+    script(src='/js/fetchScripts.js')
+  body
+    table(id='control_table')
+      tr
+        td(onclick="sendCommand('counter')") CCW
+        td(onclick="sendCommand('front')") FORWARD
+        td(onclick="sendCommand('clockwise')") CW
+      tr
+        td(onclick="sendCommand('left')") LEFT
+        td(onclick="sendCommand('stop')") STOP
+        td(onclick="sendCommand('right')") RIGHT
+      tr
+        td(onclick="sendCommand('takeoff')") TAKEOFF
+        td(onclick="sendCommand('back')") BACKWARD
+        td(onclick="sendCommand('land')") LAND

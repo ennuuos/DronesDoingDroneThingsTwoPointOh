@@ -1,7 +1,24 @@
-module.exports = function(app) {
+const express		= require('express');
+const	path			= require("path");
 
-  app.get('/', (req, res) =>{
-    res.send("test");
+module.exports = function(app, drones) {
+
+  app.use(express.static(path.join(__dirname, 'public')));
+
+  app.get('/', (req, res) => {
+    res.render('index');
+  });
+
+  app.get('/control/:id/:action', (req, res) => {
+    console.log(req.url);
+    let id = req.params['id'];
+    let action = req.params['action'];
+    drones.control(id, action);
+  });
+
+  app.get('/status', (req, res) => {
+    console.log(req.url);
+    res.send(drones.status());
   });
 
 };

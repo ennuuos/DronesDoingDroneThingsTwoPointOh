@@ -1,0 +1,23 @@
+#control_table tr td {
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  width:120px;
+  height: 30px;
+  background-color: #DDD;
+
+}
+#control_table tr td:hover {
+  background-color: #99F;
+}
+
+div {
+  background-color: #ccc;
+}
+div:hover {
+  background-color: #999;
+}
+
+.active {
+    background-color: #99f;
+}
