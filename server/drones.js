@@ -17,6 +17,7 @@ const pingDrone = (id) => {
 
 const pingAll = () => {
   for(id = 0; id < 10; id++) {
+    //DEBUG Turn off for debug
     //pingDrone(id);
   }
 }
@@ -28,7 +29,7 @@ const create = (id) => {
   console.log(`Drone ${id} connected`);
   list[id] = {'battery':0};
   list[id].drone = arDrone.createClient({ip: address(id)});
-  list[id].drone.animateLeds('redSnake', 5, 2);
+  list[id].drone.animateLeds('blinkOrange', 5, 2);
 };
 
 const remove = (id) => {
@@ -81,11 +82,15 @@ const status = () => {
 
 setInterval(pingAll, 1000);
 
-//TEMP
-create(1);
-create(2);
-setInterval(()=>{list[1]['battery']+=10}, 1500);
-//TEMP
+//DEBUG add for debug
+ create(1);
+ create(3);
+
+ setInterval(()=>{list[1]['battery']+=1}, 1000);
+ setTimeout(()=>{ create(2)}, 3000);
+ setTimeout(()=>{ remove(3)}, 5000);
+
+//DEBUG add for debug
 
 
 module.exports = {

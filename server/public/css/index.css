@@ -18,6 +18,6 @@ div:hover {
   background-color: #999;
 }
 
-.active {
+.selected {
     background-color: #99f;
 }

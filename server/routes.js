@@ -1,5 +1,5 @@
-const express		= require('express');
-const	path			= require("path");
+const express   = require('express');
+const	path      = require("path");
 
 module.exports = function(app, drones) {
 
@@ -14,6 +14,7 @@ module.exports = function(app, drones) {
     let id = req.params['id'];
     let action = req.params['action'];
     drones.control(id, action);
+		res.end();
   });
 
   app.get('/status', (req, res) => {
