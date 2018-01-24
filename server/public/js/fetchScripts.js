@@ -14,7 +14,7 @@ const fetchStatus = () => {
 				});
 				// It works, you're wright. plzdonttuch
 			}
-			list[id].element.innerHTML = `ID: ${id} B: ${data[id].battery}%`;
+			list[id].element.innerHTML = `ID: ${id}<br>B: ${data[id].battery}%`;
 		}
 		for(var id in list) {
 			if(!list.hasOwnProperty(id)) continue;
@@ -28,14 +28,12 @@ const fetchStatus = () => {
 setInterval(fetchStatus, 1000);
 
 const toggleSelect = (id) => {
-	console.log(id);
 	list[id].element.classList.toggle('selected');
 	list[id].selected = !list[id].selected;
 }
 
 const sendCommand = (command) => {
 	for(var i in list) {
-		console.log(i);
 		if(list[i].selected) fetch(`/control/${i}/${command}`);
 	}
 }

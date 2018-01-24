@@ -1,3 +1,9 @@
+body {
+	margin: 0;
+}
+#control_table {
+	margin: 5px;
+}
 #control_table tr td {
   text-align: center;
   border: 1px solid black;
@@ -11,13 +17,31 @@
   background-color: #99F;
 }
 
+@keyframes big {
+  from {width:70px;background-color: #ccc;}
+  to {width:80px;background-color: #99f;}
+}
+@keyframes small {
+  from {width:80px;background-color: #99f;}
+  to {width:70px;background-color: #ccc;}
+}
+
 div {
   background-color: #ccc;
-}
-div:hover {
-  background-color: #999;
+	width: 70px;
+	margin-top: 5px;
+	animation-name: small;
+	animation-duration: 0.2s;
+	border-radius: 0 5px 5px 0;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	padding: 5px;
 }
 
 .selected {
-    background-color: #99f;
+	width:80px;
+  background-color: #99f !important;
+	animation-name: big;
+	animation-duration: 0.2s;
 }
