@@ -12,12 +12,18 @@ const fetchStatus = () => {
       }
       list[id].element.innerHTML = `ID: ${id} B: ${data[id].battery}%`;
     }
+    for(var id in list) {
+      if(!list.hasOwnProperty(id)) continue;
+      if(!(id in data)) {
+        document.body.removeChild(list[id].element);
+        delete list[id];
+      }
+    }
   });
 };
 setInterval(fetchStatus, 1000);
 
-const toggleSelect = () => {
-  console.log(this);
+const toggleSelect = (id) => {
   list[id].element.classList.toggle('selected');
   list[id].selected = !list[id].selected;
 }
