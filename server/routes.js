@@ -17,7 +17,6 @@ module.exports = function(app, drones) {
   });
 
   app.get('/status', (req, res) => {
-    console.log(req.url);
     res.send(drones.status());
   });
 
