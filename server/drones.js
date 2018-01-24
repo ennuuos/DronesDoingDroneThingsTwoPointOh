@@ -79,7 +79,7 @@ const status = () => {
   let status = {};
   for(var id in list) {
     status[id] = {'online': true};
-    status[id]['battery'] = list[id]['battery'];
+    status[id]['battery'] = list[id].drone.battery();
   }
   return status;
 };
