@@ -5,6 +5,7 @@ const addrPrefix = '192.168.1.10';
 const speed = 0.2;
 
 let list = {};
+let drones = {};
 
 const pingDrone = (id) => {
   let addr = address(id);
@@ -23,13 +24,16 @@ const pingAll = () => {
 }
 
 const address = (id) => addrPrefix + id;
-
+for(let i = 0; i < 10; i++) {
+	drones[i] = arDrone.createClient({ip: address(i)});
+}
 const create = (id) => {
   if(id in list) return;
   console.log(`Drone ${id} connected`);
   list[id] = {'battery':0};
-  list[id].drone = arDrone.createClient({ip: address(id)});
+  list[id].drone = drones[id];
   list[id].drone.animateLeds('blinkOrange', 5, 2);
+
 };
 
 const remove = (id) => {
