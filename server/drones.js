@@ -1,8 +1,9 @@
 const arDrone   = require('ar-drone')
 const ping			= require('ping');
+let config = require('./config.json');
 
-const addrPrefix = '192.168.1.10';
-const speed = 0.2;
+const addrPrefix = config.network.ip_base;
+const speed = config.drone_speed;
 
 let list = {};
 let drones = {};
@@ -25,7 +26,7 @@ const pingAll = () => {
 
 const address = (id) => addrPrefix + id;
 for(let i = 0; i < 10; i++) {
-	drones[i] = arDrone.createClient({ip: address(i)});
+  drones[i] = arDrone.createClient({ip: address(i)});
 }
 const create = (id) => {
   if(id in list) return;
@@ -84,18 +85,15 @@ const status = () => {
   return status;
 };
 
-setInterval(pingAll, 1000);
+if(!config.debug) setInterval(pingAll, 1000);
 
-//DEBUG add for debug
- // create(1);
- // create(3);
- //
- // setInterval(()=>{list[1]['battery']+=1}, 1000);
- // setTimeout(()=>{ create(2)}, 3000);
- // setTimeout(()=>{ remove(3)}, 5000);
-
-//DEBUG add for debug
-
+if(config.debug) {
+ create(1);
+ create(3);
+ setInterval(()=>{list[1]['battery']+=1}, 1000);
+ setTimeout(()=>{ create(2)}, 3000);
+ setTimeout(()=>{ remove(3)}, 5000);
+}
 
 module.exports = {
   list: list,
