@@ -1,6 +1,6 @@
 {
 	"debug" : {
-		"active" : "true"
+		"active" : "false"
 	},
 	"network" : {
 		"ip_base" : "192.198.1.10",
