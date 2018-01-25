@@ -27,6 +27,7 @@ body {
 	text-align: center;
 	grid-template-areas:
 		"takeoff takeoff takeoff land land land"
+		"up up up down down down"
 		".. .. forward forward .. .."
 		"left left stop stop right right"
 		".. .. back back .. .."
@@ -68,6 +69,12 @@ body {
 }
 #control_div #land {
 	grid-area: land;
+}
+#control_div #up {
+	grid-area: up;
+}
+#control_div #down {
+	grid-area: down;
 }
 
 

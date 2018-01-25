@@ -1,12 +1,12 @@
 {
 	"debug" : {
-		"fake_drones" : false,
-		"no_ping" : false
+		"fake_drones" : true,
+		"no_ping" : true
 	},
 	"network" : {
 		"ip_base" : "192.198.1.10",
 		"port" : 3000
 	},
 	"game" : null,
-	"drone_speed" : 0.2
+	"default_degree" : 0.2
 }

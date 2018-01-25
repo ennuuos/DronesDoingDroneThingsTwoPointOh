@@ -3,17 +3,11 @@ html
 		title Drones Doing Drone Things
 		link(rel='stylesheet', href='/css/index.css')
 		script(src='/js/fetchScripts.js')
+		script(src='/js/gamepad.js')
 	body
 		h2 Drone Control
 		div(id='selection_div')
 		div(id='control_div')
-			div(id="ccw" onclick="sendCommand('counter')") CCW
-			div(id="forward" onclick="sendCommand('front')") FORWARD
-			div(id="cw" onclick="sendCommand('clockwise')") CW
-			div(id="left" onclick="sendCommand('left')") LEFT
-			div(id="stop" onclick="sendCommand('stop')") STOP
-			div(id="right" onclick="sendCommand('right')") RIGHT
-			div(id="takeoff" onclick="sendCommand('takeoff')") TAKEOFF
-			div(id="back" onclick="sendCommand('back')") BACKWARD
-			div(id="land" onclick="sendCommand('land')") LAND
+			for clientCommand in clientCommands
+				div(id=clientCommand.div_id onclick="sendCommand('" + clientCommand.command_name + "', " + defaultDegree + ")") #{clientCommand.div_contents}
 		footer Copyright &copy; #{new Date().getFullYear()} Travis Valenti, James Wright, Tom Williams

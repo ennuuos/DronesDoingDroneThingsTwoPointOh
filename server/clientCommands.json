@@ -1,0 +1,57 @@
+{
+    "rotate_counter_clockwise": {
+        "command_name": "counter",
+        "div_id": "ccw",
+        "div_contents": "CCW"
+    },
+    "move_forwards": {
+        "command_name": "front",
+        "div_id": "forward",
+        "div_contents": "FORWARD"
+    },
+    "rotate_clockwise": {
+        "command_name": "clockwise",
+        "div_id": "cw",
+        "div_contents": "CW"
+    },
+    "move_left": {
+        "command_name": "left",
+        "div_id": "left",
+        "div_contents": "LEFT"
+    },
+    "stop": {
+        "command_name": "stop",
+        "div_id": "stop",
+        "div_contents": "STOP"
+    },
+    "move_right": {
+        "command_name": "right",
+        "div_id": "right",
+        "div_contents": "RIGHT"
+    },
+    "takeoff": {
+        "command_name": "takeoff",
+        "div_id": "takeoff",
+        "div_contents": "TAKEOFF"
+    },
+    "move_backwards": {
+        "command_name": "back",
+        "div_id": "back",
+        "div_contents": "BACKWARD"
+    },
+    "land": {
+        "command_name": "land",
+        "div_id": "land",
+        "div_contents": "LAND"
+    },
+    "move_up": {
+        "command_name": "up",
+        "div_id": "up",
+        "div_contents": "UP"
+    },
+    "move_down": {
+        "command_name": "down",
+        "div_id": "down",
+        "div_contents": "DOWN"
+    }
+}

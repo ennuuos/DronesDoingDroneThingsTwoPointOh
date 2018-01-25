@@ -1,5 +1,5 @@
-const arDrone   = require('ar-drone')
-const ping			= require('ping');
+const arDrone = require('ar-drone')
+const ping = require('ping');
 let config = require('./config.json');
 
 const addrPrefix = config.network.ip_base;
@@ -42,8 +42,9 @@ const remove = (id) => {
   delete list[id];
 };
 
-const control = (id, action) => {
-  if(!(id in list)) return;
+const control = (id, action, degree) => {
+    // Returns false if given an invalid command or degree, and true otherwise.
+  if(!(id in list)) return false;
   switch(action) {
     case 'stop':
       list[id].drone.stop();
@@ -73,6 +74,7 @@ const control = (id, action) => {
       list[id].drone.clockwise(speed);
       break;
   }
+    return true;
 };
 
 const status = () => {
