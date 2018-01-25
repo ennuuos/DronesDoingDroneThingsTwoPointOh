@@ -19,8 +19,7 @@ const pingDrone = (id) => {
 
 const pingAll = () => {
   for(id = 0; id < 10; id++) {
-    //DEBUG Turn off for debug
-    pingDrone(id);
+		pingDrone(id);
   }
 }
 
@@ -85,14 +84,14 @@ const status = () => {
   return status;
 };
 
-if(!config.debug) setInterval(pingAll, 1000);
+if(!config.debug.no_ping) setInterval(pingAll, 1000);
 
-if(config.debug) {
- create(1);
- create(3);
- setInterval(()=>{list[1]['battery']+=1}, 1000);
- setTimeout(()=>{ create(2)}, 3000);
- setTimeout(()=>{ remove(3)}, 5000);
+if(config.debug.fake_drones) {
+	create(1);
+	create(3);
+	setInterval(()=>{list[1]['battery']+=1}, 1000);
+	setTimeout(()=>{ create(2)}, 3000);
+	setTimeout(()=>{ remove(3)}, 5000);
 }
 
 module.exports = {

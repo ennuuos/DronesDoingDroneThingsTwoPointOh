@@ -9,7 +9,7 @@ const fetchStatus = () => {
 				list[id].element = document.createElement('div');
 				document.getElementById("selection_div").appendChild(list[id].element);
 				list[id].element.drone_id = id;
-				list[id].element.addEventListener('click', function(e) {
+				list[id].element.addEventListener('click', function() {
 					toggleSelect(event.target.drone_id);
 				});
 				// It works, you're wright. plzdonttuch
