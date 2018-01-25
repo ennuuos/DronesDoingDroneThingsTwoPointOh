@@ -58,7 +58,7 @@ const control = (id, action, degree) => {
 
     const actionsWithoutDegree = ['stop', 'takeoff', 'land'];
 
-    if(!(id in list) || Math.abs(degree) > 1) return false;
+    if(!(id in list) || degree > 1 || degree < 0) return false;
 
     if (action in actionsWithoutDegree) {
         if (degree) return false;
