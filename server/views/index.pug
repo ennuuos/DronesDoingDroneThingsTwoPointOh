@@ -1,19 +1,19 @@
 html
-  head
-    title Drones Doing Drone Things
-    link(rel='stylesheet', href='/css/index.css')
-    script(src='/js/fetchScripts.js')
-  body
-    table(id='control_table')
-      tr
-        td(onclick="sendCommand('counter')") CCW
-        td(onclick="sendCommand('front')") FORWARD
-        td(onclick="sendCommand('clockwise')") CW
-      tr
-        td(onclick="sendCommand('left')") LEFT
-        td(onclick="sendCommand('stop')") STOP
-        td(onclick="sendCommand('right')") RIGHT
-      tr
-        td(onclick="sendCommand('takeoff')") TAKEOFF
-        td(onclick="sendCommand('back')") BACKWARD
-        td(onclick="sendCommand('land')") LAND
+	head
+		title Drones Doing Drone Things
+		link(rel='stylesheet', href='/css/index.css')
+		script(src='/js/fetchScripts.js')
+	body
+		h2 Drone Control
+		div(id='selection_div')
+		div(id='control_div')
+			div(id="ccw" onclick="sendCommand('counter')") CCW
+			div(id="forward" onclick="sendCommand('front')") FORWARD
+			div(id="cw" onclick="sendCommand('clockwise')") CW
+			div(id="left" onclick="sendCommand('left')") LEFT
+			div(id="stop" onclick="sendCommand('stop')") STOP
+			div(id="right" onclick="sendCommand('right')") RIGHT
+			div(id="takeoff" onclick="sendCommand('takeoff')") TAKEOFF
+			div(id="back" onclick="sendCommand('back')") BACKWARD
+			div(id="land" onclick="sendCommand('land')") LAND
+		footer Copyright &copy; #{new Date().getFullYear()} Travis Valenti, James Wright, Tom Williams
