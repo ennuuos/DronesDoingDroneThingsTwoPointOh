@@ -9,5 +9,5 @@ html
 		div(id='selection_div')
 		div(id='control_div')
 			for clientCommand in clientCommands
-				div(id=clientCommand.div_id onclick="sendCommand('" + clientCommand.command_name + "', " + defaultDegree + ")") #{clientCommand.div_contents}
+				div(id=clientCommand.div_id onclick="sendCommand('" + clientCommand.action + "', " + defaultDegree + ")") #{clientCommand.div_contents}
 		footer Copyright &copy; #{new Date().getFullYear()} Travis Valenti, James Wright, Tom Williams

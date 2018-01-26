@@ -44,27 +44,14 @@ const remove = (id) => {
 const control = (id, action, degree) => {
     // Returns false if given an invalid command or degree, and true otherwise.
 
-    const droneActionFunctions = {
-        stop: list[id].drone.stop,
-        takeoff: list[id].drone.takeoff,
-        land: list[id].drone.land,
-        left: list[id].drone.left,
-        right: list[id].drone.right,
-        front: list[id].drone.front,
-        back: list[id].drone.back,
-        counter: list[id].drone.counterClockwise,
-        clockwise: list[id].drone.clockwise,
-    }
-
-    const actionsWithoutDegree = ['stop', 'takeoff', 'land'];
-
     if(!(id in list) || degree > 1 || degree < 0) return false;
 
-    if (action in actionsWithoutDegree) {
-        if (degree) return false;
-        droneActionFunctions[action]();
+    let actionsWithoutDegree = ['stop', 'takeoff', 'land'];
+
+    if (actionsWithoutDegree.indexOf(action) > -1) {
+        list[id].drone[action]();
     } else {
-        droneActionFunctions[action](degree);
+        list[id].drone[action](degree);
     }
 
     return true;

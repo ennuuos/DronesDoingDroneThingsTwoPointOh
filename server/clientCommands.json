@@ -1,56 +1,56 @@
 {
     "rotate_counter_clockwise": {
-        "command_name": "counter",
+        "action": "counterClockwise",
         "div_id": "ccw",
         "div_contents": "CCW"
     },
     "move_forwards": {
-        "command_name": "front",
+        "action": "front",
         "div_id": "forward",
-        "div_contents": "FORWARD"
+        "div_contents": "FORWARDS"
     },
     "rotate_clockwise": {
-        "command_name": "clockwise",
+        "action": "clockwise",
         "div_id": "cw",
         "div_contents": "CW"
     },
     "move_left": {
-        "command_name": "left",
+        "action": "left",
         "div_id": "left",
         "div_contents": "LEFT"
     },
     "stop": {
-        "command_name": "stop",
+        "action": "stop",
         "div_id": "stop",
         "div_contents": "STOP"
     },
     "move_right": {
-        "command_name": "right",
+        "action": "right",
         "div_id": "right",
         "div_contents": "RIGHT"
     },
     "takeoff": {
-        "command_name": "takeoff",
+        "action": "takeoff",
         "div_id": "takeoff",
         "div_contents": "TAKEOFF"
     },
     "move_backwards": {
-        "command_name": "back",
+        "action": "back",
         "div_id": "back",
-        "div_contents": "BACKWARD"
+        "div_contents": "BACKWARDS"
     },
     "land": {
-        "command_name": "land",
+        "action": "land",
         "div_id": "land",
         "div_contents": "LAND"
     },
     "move_up": {
-        "command_name": "up",
+        "action": "up",
         "div_id": "up",
         "div_contents": "UP"
     },
     "move_down": {
-        "command_name": "down",
+        "action": "down",
         "div_id": "down",
         "div_contents": "DOWN"
     }
