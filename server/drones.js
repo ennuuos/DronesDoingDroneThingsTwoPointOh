@@ -1,11 +1,7 @@
 const arDrone = require('ar-drone')
 const ping = require('ping');
 let config = require('./config.json');
-<<<<<<< HEAD
-let clientCommands = require('./clientCommands.json');
-=======
 let clientCommands = require('./clientCommands.json')
->>>>>>> Validate control actions on server side
 
 const addrPrefix = config.network.ip_base;
 
