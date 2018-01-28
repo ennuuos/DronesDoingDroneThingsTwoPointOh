@@ -1,7 +1,7 @@
 const arDrone = require('ar-drone')
 const ping = require('ping');
 let config = require('./config.json');
-let clientCommands = require('./clientCommands.json');
+let clientCommands = require('./clientCommands.json')
 
 const addrPrefix = config.network.ip_base;
 
@@ -47,10 +47,19 @@ const control = (id, action, degree) => {
 
     if(!(id in list) || degree > 1 || degree < 0) return false;
 
-    if (clientCommands[action].has_degree) {
-			list[id].drone[action](degree);
+    let actionsWithoutDegree = clientCommands
+        .filter(command => !command['has_degree'])
+        .map(command => command['action']);
+    let actionsWithDegree = clientCommands
+        .filter(command => command['has_degree'])
+        .map(command => command['action']);
+
+    if (actionsWithoutDegree.indexOf(action) > -1) {
+        list[id].drone[action]();
+    } else if (actionsWithDegree.indexOf(action) > -1) {
+        list[id].drone[action](degree);
     } else {
-			list[id].drone[action]();
+        return false;
     }
 
     return true;
