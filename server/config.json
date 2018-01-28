@@ -1,7 +1,7 @@
 {
 	"debug" : {
-		"fake_drones" : true,
-		"no_ping" : true
+		"fake_drones" : false,
+		"no_ping" : false
 	},
 	"network" : {
 		"ip_base" : "192.198.1.10",
