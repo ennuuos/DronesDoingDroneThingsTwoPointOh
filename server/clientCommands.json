@@ -2,56 +2,67 @@
     "rotate_counter_clockwise": {
         "action": "counterClockwise",
         "div_id": "ccw",
-        "div_contents": "CCW"
+        "div_contents": "CCW",
+				"has_degree": true
     },
     "move_forwards": {
         "action": "front",
         "div_id": "forward",
-        "div_contents": "FORWARDS"
+        "div_contents": "FORWARDS",
+				"has_degree": true
     },
     "rotate_clockwise": {
         "action": "clockwise",
         "div_id": "cw",
-        "div_contents": "CW"
+        "div_contents": "CW",
+				"has_degree": true
     },
     "move_left": {
         "action": "left",
         "div_id": "left",
-        "div_contents": "LEFT"
+        "div_contents": "LEFT",
+				"has_degree": true
     },
     "stop": {
         "action": "stop",
         "div_id": "stop",
-        "div_contents": "STOP"
+        "div_contents": "STOP",
+				"has_degree": false
     },
     "move_right": {
         "action": "right",
         "div_id": "right",
-        "div_contents": "RIGHT"
+        "div_contents": "RIGHT",
+				"has_degree": true
     },
     "takeoff": {
         "action": "takeoff",
         "div_id": "takeoff",
-        "div_contents": "TAKEOFF"
+        "div_contents": "TAKEOFF",
+				"has_degree": false
     },
     "move_backwards": {
         "action": "back",
         "div_id": "back",
-        "div_contents": "BACKWARDS"
+        "div_contents": "BACKWARDS",
+				"has_degree": true
     },
     "land": {
         "action": "land",
         "div_id": "land",
-        "div_contents": "LAND"
+        "div_contents": "LAND",
+				"has_degree": false
     },
     "move_up": {
         "action": "up",
         "div_id": "up",
-        "div_contents": "UP"
+        "div_contents": "UP",
+				"has_degree": true
     },
     "move_down": {
         "action": "down",
         "div_id": "down",
-        "div_contents": "DOWN"
+        "div_contents": "DOWN",
+				"has_degree": true
     }
 }
