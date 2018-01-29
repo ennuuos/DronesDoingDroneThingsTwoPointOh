@@ -30,4 +30,8 @@ module.exports = function(app, drones) {
     app.get('/status', (req, res) => {
         res.send(drones.status());
     });
+
+		app.get('/js/game_module.js', (req, res) => {
+			res.sendFile(path.join(__dirname, config.games_directory, config.game, `${config.game}_client.js`));
+		});
 };

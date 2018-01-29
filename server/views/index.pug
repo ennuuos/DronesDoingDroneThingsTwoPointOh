@@ -4,10 +4,12 @@ html
 		link(rel='stylesheet', href='/css/index.css')
 		script(src='/js/fetchScripts.js')
 		script(src='/js/gamepad.js')
-	body
+		script(src='/js/game_module.js')
+	body(onload='game_module()')
 		h2 Drone Control
+		div(id='game_div')
 		div(id='selection_div')
 		div(id='control_div')
 			for clientCommand in clientCommands
-				div(id=clientCommand.div_id onclick=`sendCommand(\"${clientCommand.action}\", ${defaultDegree})`) #{clientCommand.div_contents}
+				div(id=clientCommand.div_id onclick=`sendCommand(\"${clientCommand.action}\", ${defaultDegree})` style=`grid-area: ${clientCommand.div_id};`) #{clientCommand.div_contents}
 		footer Copyright &copy; #{new Date().getFullYear()} Travis Valenti, James Wright, Tom Williams
