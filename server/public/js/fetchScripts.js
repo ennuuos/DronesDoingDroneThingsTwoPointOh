@@ -20,7 +20,6 @@ const fetchStatus = () => {
 				);
 				droneStatusList[id].element.drone_id = id;
 
-				console.log('here');
 				droneStatusList[id].element.addEventListener('click',
 					function(event) {
 						toggleSelect(event.target.drone_id);
