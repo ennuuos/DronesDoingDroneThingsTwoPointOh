@@ -64,5 +64,11 @@
         "div_id": "down",
         "div_contents": "DOWN",
         "has_degree": true
+    },
+    {
+        "action": "lights",
+        "div_id": "lights",
+        "div_contents": "FLASH",
+        "has_degree": false
     }
 ]

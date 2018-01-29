@@ -54,7 +54,9 @@ const control = (id, action, degree) => {
         .filter(command => command['has_degree'])
         .map(command => command['action']);
 
-    if (actionsWithoutDegree.indexOf(action) > -1) {
+    if (action == "lights") {
+      list[id].drone.animateLeds('blinkGreenRed', 60, 2);
+    } else if (actionsWithoutDegree.indexOf(action) > -1) {
         list[id].drone[action]();
     } else if (actionsWithDegree.indexOf(action) > -1) {
         list[id].drone[action](degree);
