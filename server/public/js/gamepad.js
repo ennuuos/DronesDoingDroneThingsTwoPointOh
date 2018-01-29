@@ -5,13 +5,12 @@
 // Always uses the first gamepad, and always flys drone 2.
 const gamepadID = 0
 const droneToControlID = 2;
+const gamepadAxisThreshold = 0.2;
 const gamepads = {};
 
 // The analogue sticks have a lot of noise (even when not being touched), so we
 // can round them to one decimal place to give them fewer distinct states.
-const roundToNearestFifth = value => {
-    return Math.round(value * 5) / 5;
-}
+const threshold = value => (Math.abs(value) > gamepadAxisThreshold) ? value : 0;
 const getValueFromZeroToOne = value => Math.min(1, Math.max(value, 0));
 const getValueFromMinusOneToZero = value => Math.min(0, Math.max(value, -1));
 
@@ -25,14 +24,14 @@ const getGetAxesInputFunction = (axisIndex, positivePart) => {
     if (positivePart) {
         return () => {
             if (!gamepads[gamepadID]) {return 0};
-            return getValueFromZeroToOne(roundToNearestFifth(
+            return getValueFromZeroToOne(threshold(
                 gamepads[gamepadID].axes[axisIndex]
             ));
         }
     } else {
         return () => {
             if (!gamepads[gamepadID])  {return 0};
-            return Math.abs(getValueFromMinusOneToZero(roundToNearestFifth(
+            return Math.abs(getValueFromMinusOneToZero(threshold(
                 gamepads[gamepadID].axes[axisIndex]
             )));
         }
