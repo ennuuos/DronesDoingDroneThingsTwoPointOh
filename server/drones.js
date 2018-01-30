@@ -92,4 +92,15 @@ module.exports = {
     gameNavdataCallback: gameNavdataCallback,
 };
 
-require('./tracker.js');
+var http    = require('http');
+if(1 in drones) {
+  pngStream = drones[1].getPngStream();
+
+  var lastPng;
+  pngStream
+    .on('error', console.log)
+    .on('data', function(pngBuffer) {
+      lastPng = pngBuffer;
+      console.log('New PNG');
+    });
+}
