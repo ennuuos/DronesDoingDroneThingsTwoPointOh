@@ -1,5 +1,6 @@
 const arDrone = require('ar-drone')
 const ping = require('ping');
+
 let config = require('./config.json');
 let clientCommands = require('./clientCommands.json')
 
@@ -30,6 +31,8 @@ for(let i = 0; i < 10; i++) {
 		//drones[i].on('navdata', console.log);
 }
 
+
+
 const create = (id) => {
     if(id in list) return;
     console.log(`Drone ${id} connected`);
@@ -57,7 +60,7 @@ const control = (id, action, degree) => {
         .map(command => command['action']);
 
     if (action == "lights") {
-      list[id].drone.animateLeds('blinkGreenRed', 60, 2);
+      list[id].drone.animateLeds('fire', 60, 2);
     } else if (actionsWithoutDegree.indexOf(action) > -1) {
         list[id].drone[action]();
     } else if (actionsWithDegree.indexOf(action) > -1) {
@@ -93,3 +96,5 @@ module.exports = {
     control: control,
     status: status,
 };
+
+require('./tracker.js');
