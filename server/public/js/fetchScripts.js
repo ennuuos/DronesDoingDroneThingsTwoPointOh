@@ -26,7 +26,7 @@ const fetchStatus = () => {
 				});
 			}
 			droneStatusList[id].element.innerHTML =
-				`ID: ${id}<br>B: ${serverDroneData[id].battery}%`;
+				`ID: ${id}<br>B: ${serverDroneData[id].batteryPercentage}%`;
 		}
 
 		for(var id in droneStatusList) {

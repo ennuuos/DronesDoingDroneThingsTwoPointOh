@@ -27,7 +27,9 @@ const pingAll = () => {
 const address = (id) => addrPrefix + id;
 for(let i = 0; i < 10; i++) {
     drones[i] = arDrone.createClient({ip: address(i)});
-		//drones[i].on('navdata', console.log);
+		drones[i].on('navdata', (data) => {
+			if(data.demo) navdata[i] = data.demo;
+		});
 }
 
 const create = (id) => {
@@ -70,12 +72,7 @@ const control = (id, action, degree) => {
 };
 
 const status = () => {
-    let status = {};
-    for(var id in list) {
-        status[id] = {'online': true};
-        status[id]['battery'] = list[id].drone.battery();
-    }
-    return status;
+    return navdata;
 };
 
 if(!config.debug.no_ping) setInterval(pingAll, 1000);
