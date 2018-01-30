@@ -98,6 +98,7 @@ module.exports = {
 };
 
 var http    = require('http');
+
 if(1 in drones) {
   pngStream = drones[1].getPngStream();
 
@@ -106,6 +107,26 @@ if(1 in drones) {
     .on('error', console.log)
     .on('data', function(pngBuffer) {
       lastPng = pngBuffer;
-      console.log('New PNG');
+
+      var frameCounter = 0;
+      var saveDir = '/home/Projects/DronesDoingDroneThingsTwoPointOh/Images';
+
+      pngStream
+        .on('error', console.log)
+        .on('data', function(pngBuffer) {
+
+
+        var imageName = saveDir + '/savePNG' + frameCounter +
+      '.png';
+        fs. writeFile(imageName, pngBuffer, function(err) {
+          if (err) {
+            console.log('Error saving PNG: ' + err);
+          }
+        });
+
+        console.log(imageName);
+
+        frameCounter++;
+      });
     });
 }
