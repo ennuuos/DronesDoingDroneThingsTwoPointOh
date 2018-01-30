@@ -8,6 +8,7 @@ pngStream
   .on('error', console.log)
   .on('data', function(pngBuffer) {
     lastPng = pngBuffer;
+    console.log('New PNG');
   });
 
   //const tracker = require('./tracker.js')
