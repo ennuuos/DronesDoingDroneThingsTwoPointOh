@@ -27,7 +27,7 @@ const pingAll = () => {
 const address = (id) => addrPrefix + id;
 for(let i = 0; i < 10; i++) {
     drones[i] = arDrone.createClient({ip: address(i)});
-		drones[i].on('navdata', console.log);
+		//drones[i].on('navdata', console.log);
 }
 
 const create = (id) => {
