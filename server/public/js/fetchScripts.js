@@ -42,6 +42,8 @@ const fetchStatus = () => {
 				delete droneStatusList[id];
 			}
 		}
+	}).catch({
+
 	});
 };
 
