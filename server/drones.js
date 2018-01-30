@@ -109,23 +109,22 @@ if(1 in drones) {
       lastPng = pngBuffer;
 
       var frameCounter = 0;
-      var saveDir = '/home/Projects/DronesDoingDroneThingsTwoPointOh/Images';
+      var saveDir = '/home/aedus/Projects/DronesDoingDroneThingsTwoPointOh/Images';
+      var fs = require('fs');
 
       pngStream
         .on('error', console.log)
         .on('data', function(pngBuffer) {
 
 
-        var imageName = saveDir + '/savePNG' + frameCounter +
-      '.png';
+        var imageName = saveDir + '/lastPng.png';
         fs. writeFile(imageName, pngBuffer, function(err) {
           if (err) {
-            console.log('Error saving PNG: ' + err);
+            console.log('Buffer Error: Error saving PNG: ' + err);
           }
         });
 
         console.log(imageName);
-
         frameCounter++;
       });
     });

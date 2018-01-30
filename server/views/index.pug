@@ -12,4 +12,6 @@ html
 		div(id='control_div')
 			for clientCommand in clientCommands
 				div(id=clientCommand.div_id onclick=`sendCommand(\"${clientCommand.action}\", ${defaultDegree})` style=`grid-area: ${clientCommand.div_id};`) #{clientCommand.div_contents}
+		div(id='camera_div')
+				img.className#IdName(src="/images/lastPng.png" alt="Image Not Loaded")
 		footer Copyright &copy; #{new Date().getFullYear()} Travis Valenti, James Wright, Tom Williams
