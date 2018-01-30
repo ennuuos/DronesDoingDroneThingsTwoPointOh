@@ -4,6 +4,7 @@ body {
 	display: grid;
 	grid-template-areas:
 	"header"
+	"game"
 	"selection"
 	"control"
 	"footer"
@@ -31,7 +32,7 @@ body {
 		".. .. forward forward .. .."
 		"left left stop stop right right"
 		".. .. back back .. .."
-		"ccw ccw ccw cw cw cw"
+		"ccw ccw lights lights cw cw"
 	;
 }
 #control_div div {
@@ -42,41 +43,6 @@ body {
 #control_div div:hover {
 	background-color: #abbacd;
 }
-
-#control_div #ccw {
-	grid-area: ccw;
-}
-#control_div #forward {
-	grid-area: forward;
-}
-#control_div #cw {
-	grid-area: cw;
-}
-#control_div #left {
-	grid-area: left;
-}
-#control_div #stop {
-	grid-area: stop;
-}
-#control_div #right {
-	grid-area: right;
-}
-#control_div #takeoff {
-	grid-area: takeoff;
-}
-#control_div #back {
-	grid-area: back;
-}
-#control_div #land {
-	grid-area: land;
-}
-#control_div #up {
-	grid-area: up;
-}
-#control_div #down {
-	grid-area: down;
-}
-
 
 #selection_div {
 	grid-area: selection;
@@ -96,6 +62,10 @@ body {
 }
 .selected {
 	border-bottom: 6px solid #f2b632 !important;
+}
+
+#game_div {
+	grid-area: game;
 }
 
 footer {

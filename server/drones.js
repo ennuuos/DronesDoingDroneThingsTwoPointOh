@@ -6,6 +6,7 @@ let clientCommands = require('./clientCommands.json')
 const addrPrefix = config.network.ip_base;
 
 let list = {};
+let navdata = {};
 let drones = {};
 
 const pingDrone = (id) => {
@@ -26,6 +27,7 @@ const pingAll = () => {
 const address = (id) => addrPrefix + id;
 for(let i = 0; i < 10; i++) {
     drones[i] = arDrone.createClient({ip: address(i)});
+		//drones[i].on('navdata', console.log);
 }
 
 const create = (id) => {
