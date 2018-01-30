@@ -12,7 +12,11 @@ module.exports = function(app, drones) {
             defaultDegree: config.default_degree,
             clientCommands: clientCommands
         });
-    });
+      });
+
+    app.get('/camera', (req, res) => {
+        res.render();
+        });
 
     app.post('/control/:id/:action', (req, res) => {
         console.log(req.url, req.body.degree);
