@@ -1,76 +1,106 @@
-// File largely taken from:
-// https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API
-
-
-// Always uses the first gamepad, and always flys drone 2.
-const gamepadID = 0
-const droneToControlID = 2;
-const gamepadAxisThreshold = 0.2;
+const gamepadAxisThreshold = 0.15;
 const gamepads = {};
+const dronesIDsControlledByGamepad = {0: [1, 3, 9]}; // Currently arbitrary.
 
 // The analogue sticks have a lot of noise (even when not being touched), so we
-// can round them to one decimal place to give them fewer distinct states.
-const threshold = value => (Math.abs(value) > gamepadAxisThreshold) ? value : 0;
+// need the below functions to threshold and scale the raw values they return.
 const getValueFromZeroToOne = value => Math.min(1, Math.max(value, 0));
-const getValueFromMinusOneToZero = value => Math.min(0, Math.max(value, -1));
+const constrainValue = (value, inputStart, inputEnd) => {
+    // Returns a number between zero and one (inclusive) representing how far
+    // value is from inputStart towards inputEnd.
+    const displacementOfInputEndFromInputStart = inputEnd - inputStart;
+    const displacementOfValueFromInputStart = value - inputStart;
+    const decimalDisplacement = displacementOfValueFromInputStart /
+        displacementOfInputEndFromInputStart;
+    const constrainedValue = getValueFromZeroToOne(decimalDisplacement);
+    return constrainedValue;
+};
 
 const getGetButtonInputFunction = (buttonIndex) => {
-    return () => {
+    return gamepadID => {
         if (!gamepads[gamepadID]) {return false};
         return gamepads[gamepadID].buttons[buttonIndex].pressed;
     }
 }
 const getGetAxesInputFunction = (axisIndex, positivePart) => {
-    if (positivePart) {
-        return () => {
-            if (!gamepads[gamepadID]) {return 0};
-            return getValueFromZeroToOne(threshold(
-                gamepads[gamepadID].axes[axisIndex]
-            ));
-        }
-    } else {
-        return () => {
-            if (!gamepads[gamepadID])  {return 0};
-            return Math.abs(getValueFromMinusOneToZero(threshold(
-                gamepads[gamepadID].axes[axisIndex]
-            )));
-        }
-    }
+    const direction = positivePart ? 1 : -1;
+    return gamepadID => constrainValue(
+            gamepads[gamepadID].axes[axisIndex],
+            gamepadAxisThreshold * direction,
+            direction
+    );
 }
 
 // Arbitrary mapping for now. A more consistent way should be found.
-const actionValueFunctions = {
-    'left': getGetAxesInputFunction(0, false),
-    'right': getGetAxesInputFunction(0, true),
-    'front': getGetAxesInputFunction(1, false),
-    'back': getGetAxesInputFunction(1, true),
-    'counterClockwise': getGetAxesInputFunction(2, false),
-    'clockwise': getGetAxesInputFunction(2, true),
-    'up': getGetAxesInputFunction(3, false),
-    'down': getGetAxesInputFunction(3, true),
-    'takeoff': getGetButtonInputFunction(0),
-    'land': getGetButtonInputFunction(1),
-    'stop': getGetButtonInputFunction(2)
-}
-
-var thereAreEvents = 'ongamepadconnected' in window;
-
-// Yes, I know, redundancy.
-
-function gamepadConnectionHandler(event) {
-    addGamepad(event.gamepad);
+const actionData = {
+    'left': {
+        'getInput': getGetAxesInputFunction(0, false),
+        'isAnalog': true,
+    },
+    'right': {
+        'getInput': getGetAxesInputFunction(0, true),
+        'isAnalog': true,
+    },
+    'front': {
+        'getInput': getGetAxesInputFunction(1, false),
+        'isAnalog': true,
+    },
+    'back': {
+        'getInput': getGetAxesInputFunction(1, true),
+        'isAnalog': true,
+    },
+    'counterClockwise': {
+        'getInput': getGetAxesInputFunction(2, false),
+        'isAnalog': true,
+    },
+    'clockwise':  {
+        'getInput': getGetAxesInputFunction(2, true),
+        'isAnalog': true,
+    },
+    'up': {
+        'getInput': getGetAxesInputFunction(3, false),
+        'isAnalog': true,
+    },
+    'down': {
+        'getInput': getGetAxesInputFunction(3, true),
+        'isAnalog': true,
+    },
+    'takeoff': {
+        'getInput': getGetButtonInputFunction(0),
+        'isAnalog': false,
+    },
+    'land': {
+        'getInput': getGetButtonInputFunction(1),
+        'isAnalog': false,
+    },
+    'stop': {
+        'getInput': getGetButtonInputFunction(2),
+        'isAnalog': false,
+    }
 }
 
 function addGamepad(gamepad) {
+    gamepad.sentAnalogCommandLastTime = false;
     gamepads[gamepad.index] = gamepad;
-}
-
-function gamepadDisconnectionHandler(event) {
-    removeGamepad(event.gamepad);
 }
 
 function removeGamepad(gamepad) {
     delete gamepads[gamepad.index];
+}
+
+function scangamepads() {
+    var currentGamepads = navigator.getGamepads ? navigator.getGamepads() : (
+        navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []
+    );
+    for (var i = 0; i < currentGamepads.length; i++) {
+        if (currentGamepads[i]) {
+            if (currentGamepads[i].index in currentGamepads) {
+                currentGamepads[currentGamepads[i].index] = currentGamepads[i];
+            } else {
+                addGamepad(currentGamepads[i]);
+            }
+        }
+    }
 }
 
 function updateStatus() {
@@ -78,39 +108,61 @@ function updateStatus() {
         scangamepads();
     }
 
-    for (action in actionValueFunctions) {
-        let url = `/control/${droneToControlID}/${action}`;
-        let degree = actionValueFunctions[action]();
-        if (degree) {
-            fetch(url, {
-                method: 'POST',
-                body: JSON.stringify({degree: degree}),
-                headers: new Headers({
-                    'Content-Type': 'application/json'
-                })
-            })
+    for (gamepadID in gamepads) {
+        let sentAnalogCommand = false;
+        let actionsToTake = actionData.;
+        for (action in actionData) {
+            actionDegrees[action] = actionData[action].getInput(gamepadID);
         }
+
+        for (droneID of dronesIDsControlledByGamepad[gamepadID]) {
+            for (action in actionData) {
+                let url = `/control/${droneID}/${action}`;
+                let degree = actionData[action].getInput(gamepadID);
+
+                if (degree) {
+                    fetch(url, {
+                        method: 'POST',
+                        body: JSON.stringify({degree: degree}),
+                        headers: new Headers({
+                            'Content-Type': 'application/json'
+                        })
+                    });
+                }
+
+                if (actionData[action].isAnalog) {sentAnalogCommand = true};
+            }
+
+            console.log(gamepads[gamepadID].sentAnalogCommandLastTime, sentAnalogCommand);
+
+            if (
+                gamepads[gamepadID].sentAnalogCommandLastTime &&
+                    !sentAnalogCommand
+            ) {
+                // If we sent an analog command last time, but not this time,
+                // we need to tell the drone to stop. We can do this for every
+                // drone this controller is connected to, because they will have
+                // all been recieving the same commands.
+                const stopURL = `/control/${droneID}/stop`
+                // I don't like that (^) either.
+                fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify({degree: 1}),
+                    headers: new Headers({'Content-Type': 'application/json'})
+                });
+                // Or that (^).
+            }
+        }
+
+        gamepads[gamepadID].sentAnalogCommandLastTime = sentAnalogCommand;
     }
 }
+
+let thereAreEvents = 'ongamepadconnected' in window;
 updateStatus();
 setInterval(updateStatus, 100);
 
-function scangamepads() {
-    var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
-    for (var i = 0; i < gamepads.length; i++) {
-        if (gamepads[i]) {
-            if (gamepads[i].index in gamepads) {
-                gamepads[gamepads[i].index] = gamepads[i];
-            } else {
-                addGamepad(gamepads[i]);
-            }
-        }
-    }
-}
-
-window.addEventListener('gamepadconnected', gamepadConnectionHandler);
-window.addEventListener('gamepaddisconnected', gamepadDisconnectionHandler);
-
-if (!thereAreEvents) {
-  setInterval(scangamepads, 500);
-}
+window.addEventListener('gamepadconnected', event => addGamepad(event.gamepad));
+window.addEventListener(
+    'gamepaddisconnected', event => removeGamepad(event.gamepad)
+);
