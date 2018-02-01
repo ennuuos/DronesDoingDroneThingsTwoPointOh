@@ -6,6 +6,7 @@ body {
 	"header"
 	"game"
 	"selection"
+	"gamepad"
 	"control"
 	"footer"
 	;
@@ -47,7 +48,7 @@ body {
 #selection_div {
 	grid-area: selection;
 	display: grid;
-	grid-column-gap: 5px;
+	grid-gap: 5px;
 	grid-auto-columns: 100px;
 	grid-template-columns: repeat(10, auto);
 }
@@ -56,6 +57,7 @@ body {
 	border-bottom: 6px #999 solid;
 	background-color: #bccbde;
 	padding: 5px;
+	grid-row: 2;
 }
 #selection_div div:hover {
 	background-color: #abbacd;
@@ -68,6 +70,27 @@ body {
 	grid-area: game;
 }
 
+#gamepad_div {
+	grid-area: gamepad;
+	display: grid;
+	grid-gap: 5px;
+	grid-auto-columns: 100px;
+	grid-template-columns: repeat(10, auto);
+}
+#gamepad_div div {
+	border-bottom: 6px #999 solid;
+	background-color: #bccbde;
+	padding: 5px;
+	grid-row: 2;
+}
+#gamepad_div div:hover {
+	background-color: #abbacd;
+}
+#gamepad_div #bind_gamepad_button {
+		grid-row: 1;
+	border-bottom: 6px transparent solid;
+	border-top: 6px transparent solid;
+}
 footer {
 	grid-area: footer;
 	text-align: center;

@@ -6,10 +6,13 @@ html
 		script(src='/js/renderDrones.js')
 		script(src='/js/selectDrones.js')
 		script(src='/js/gamepad.js')
+		script(src='/js/renderGamepads.js')
 		script(src='/js/game_module.js')
 	body(onload='game_module()')
 		h2 Drone Control
 		div(id='game_div')
+		div(id='gamepad_div')
+			div(id="bind_gamepad_button" onclick="bindGamepads()") BIND GAMEPADS
 		div(id='selection_div')
 		div(id='control_div')
 			for clientCommand in clientCommands

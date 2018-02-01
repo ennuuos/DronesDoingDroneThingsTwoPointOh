@@ -1,9 +1,9 @@
 // This file takes the commands from connected gamepads and decides from them
 // what control commands to send to the server.
 
-const gamepadAxisThreshold = 0.01;
+const gamepadAxisThreshold = 0.03;
 const gamepads = {};
-const droneIDsControlledByGamepad = {0: [0], 1: [1]}
+const droneIDsControlledByGamepad = {};
 // Currently arbitrary (^), but will eventually be controlled by the user.
 
 // The analogue sticks have a lot of noise (even when not being touched), so we
@@ -84,7 +84,11 @@ const controllerMappings = {
     stop: {
         getInput: getGetButtonInputFunction(2),
         isAnalog: false,
-    }
+    },
+		lights: {
+			getInput: getGetButtonInputFunction(3),
+			isAnalog: false,
+		},
 }
 
 const sendControls = () => {
@@ -141,6 +145,8 @@ const addGamepad = (gamepad) => {
     // (^) For recording whether we need to tell the drones connected to that
     // controller to stop after we stop sending an analog signal
     gamepads[gamepad.index] = gamepad;
+		droneIDsControlledByGamepad[gamepad.index] = [];
+		createGamepadElement(gamepad.index);
 }
 
 const removeGamepad = (gamepad) => {
@@ -150,7 +156,11 @@ const removeGamepad = (gamepad) => {
 sendControls();
 setInterval(sendControls, 100);
 
-window.addEventListener('gamepadconnected', event => addGamepad(event.gamepad));
+//setInterval(console.log, 1000, gamepads);
+
+window.addEventListener(
+		'gamepadconnected', event => addGamepad(event.gamepad)
+);
 window.addEventListener(
     'gamepaddisconnected', event => removeGamepad(event.gamepad)
 );
