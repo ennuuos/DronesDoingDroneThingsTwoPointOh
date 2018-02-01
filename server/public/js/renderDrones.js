@@ -1,7 +1,7 @@
 
 let drone_elements = {};
 
-const render = function() {
+const renderDrones = function() {
 	addElements();
 	removeElements();
 	updateElements();
@@ -50,4 +50,4 @@ const elementTemplate = function(id) {
 }
 
 
-setInterval(render, 100);
+setInterval(renderDrones, 100);
