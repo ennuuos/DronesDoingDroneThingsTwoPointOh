@@ -70,5 +70,11 @@
         "div_id": "lights",
         "div_contents": "FLASH",
         "has_degree": false
+    },
+    {
+        "action": "disableEmergency",
+        "div_id": "reset",
+        "div_contents": "RESET",
+        "has_degree": false
     }
 ]

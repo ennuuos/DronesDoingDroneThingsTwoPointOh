@@ -32,7 +32,8 @@ body {
 		".. .. forward forward .. .."
 		"left left stop stop right right"
 		".. .. back back .. .."
-		"ccw ccw lights lights cw cw"
+		"ccw ccw ccw cw cw cw"
+		"lights lights .. .. reset reset"
 	;
 }
 #control_div div {
@@ -52,16 +53,27 @@ body {
 	grid-template-columns: repeat(10, auto);
 }
 
+#selection_div #selectAll_button {
+	border-bottom: 6px transparent solid;
+	border-top: 6px transparent solid;
+	display: none;
+}
+
 #selection_div div {
 	border-bottom: 6px #999 solid;
 	background-color: #bccbde;
 	padding: 5px;
+	border-top: 6px transparent solid;
 }
 #selection_div div:hover {
 	background-color: #abbacd;
 }
 .selected {
 	border-bottom: 6px solid #f2b632 !important;
+}
+
+.emergency {
+	border-top: 6px solid #eb5a46 !important;
 }
 
 #game_div {

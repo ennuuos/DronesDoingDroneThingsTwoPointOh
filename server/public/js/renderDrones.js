@@ -1,10 +1,18 @@
 
 let drone_elements = {};
 
+const areThereDrones = function() {
+		for(let k in drone_elements) {
+			if(drone_elements.hasOwnProperty(k)) return true;
+		}
+		return false;
+}
+
 const render = function() {
 	addElements();
 	removeElements();
 	updateElements();
+	checkSelectionButton();
 }
 
 const addElements = function() {
@@ -38,6 +46,12 @@ const removeElement = function(id) {
 const updateElements = function() {
 	for(let id in drone_elements) {
 		drone_elements[id].innerHTML = elementTemplate(drone_elements[id].id);
+		// if(drone_data[id].controlState === "CTRL_DEFAULT") {
+		// 	drone_elements[id].classList.add('emergency');
+		// } else {
+		// 	drone_elements[id].classList.remove('emergency');
+		// }
+		drone_elements[id].classList[drone_data[id].controlState === "CTRL_DEFAULT"?'add':'remove']('emergency');
 	}
 }
 
