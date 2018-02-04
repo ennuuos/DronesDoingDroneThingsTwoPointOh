@@ -54,11 +54,11 @@ module.exports = (app, drones) => {
     })
 
     app.get('/game/scores', (request, response) => {
-        const scores = {}
+        const scores = {};
         for (droneID in droneGameStatuses) {
             scores[droneID] = droneGameStatuses[droneID].score;
         }
-        res.send(scores);
+        response.send(scores);
     })
 
     // Set updateStatusFromNavdata to actually be called when navdata is ready.
