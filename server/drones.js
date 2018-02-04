@@ -9,6 +9,8 @@ let list = {};
 let navdata = {};
 let drones = {};
 
+let gameNavdataCallback = () => {};
+
 const pingDrone = (id) => {
   let addr = address(id);
 
@@ -31,6 +33,7 @@ for(let i = 0; i < 10; i++) {
 			if(data.demo) {
 				if(!navdata[i]) console.log(`Drone ${i} connected`);
 				navdata[i] = data.demo;
+                gameNavdataCallback(i, data.demo);
 			}
 		});
 }
@@ -93,4 +96,5 @@ module.exports = {
     list: list,
     control: control,
     status: status,
+    gameNavdataCallback: gameNavdataCallback,
 };
