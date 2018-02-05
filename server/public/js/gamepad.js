@@ -1,116 +1,166 @@
-// File largely taken from:
-// https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API
+// This file takes the commands from connected gamepads and decides from them
+// what control commands to send to the server.
 
-
-// Always uses the first gamepad, and always flys drone 2.
-const gamepadID = 0
-const droneToControlID = 2;
-const gamepadAxisThreshold = 0.2;
+const gamepadAxisThreshold = 0.03;
 const gamepads = {};
+const droneIDsControlledByGamepad = {};
+// Currently arbitrary (^), but will eventually be controlled by the user.
 
 // The analogue sticks have a lot of noise (even when not being touched), so we
-// can round them to one decimal place to give them fewer distinct states.
-const threshold = value => (Math.abs(value) > gamepadAxisThreshold) ? value : 0;
+// need the below functions to threshold and scale the raw values they return.
 const getValueFromZeroToOne = value => Math.min(1, Math.max(value, 0));
-const getValueFromMinusOneToZero = value => Math.min(0, Math.max(value, -1));
+const constrainValue = (value, inputStart, inputEnd) => {
+    // Returns a number between zero and one (inclusive) representing how far
+    // value is from inputStart towards inputEnd.
+    return getValueFromZeroToOne(
+        (value - inputStart) / (inputEnd - inputStart)
+    );
+};
 
 const getGetButtonInputFunction = (buttonIndex) => {
-    return () => {
+    return gamepadID => {
         if (!gamepads[gamepadID]) {return false};
         return gamepads[gamepadID].buttons[buttonIndex].pressed;
     }
 }
 const getGetAxesInputFunction = (axisIndex, positivePart) => {
-    if (positivePart) {
-        return () => {
-            if (!gamepads[gamepadID]) {return 0};
-            return getValueFromZeroToOne(threshold(
-                gamepads[gamepadID].axes[axisIndex]
-            ));
-        }
-    } else {
-        return () => {
-            if (!gamepads[gamepadID])  {return 0};
-            return Math.abs(getValueFromMinusOneToZero(threshold(
-                gamepads[gamepadID].axes[axisIndex]
-            )));
-        }
+    // positivePart determines whether the input should be taken from the
+    // positive of negative part of the axis value.
+    const direction = positivePart ? 1 : -1;
+    return gamepadID => {
+        if (!gamepads[gamepadID]) {return false};
+        return constrainValue(
+            gamepads[gamepadID].axes[axisIndex],
+            gamepadAxisThreshold * direction,
+            direction
+        );
     }
 }
 
-// Arbitrary mapping for now. A more consistent way should be found.
-const actionValueFunctions = {
-    'left': getGetAxesInputFunction(0, false),
-    'right': getGetAxesInputFunction(0, true),
-    'front': getGetAxesInputFunction(1, false),
-    'back': getGetAxesInputFunction(1, true),
-    'counterClockwise': getGetAxesInputFunction(2, false),
-    'clockwise': getGetAxesInputFunction(2, true),
-    'up': getGetAxesInputFunction(3, false),
-    'down': getGetAxesInputFunction(3, true),
-    'takeoff': getGetButtonInputFunction(0),
-    'land': getGetButtonInputFunction(1),
-    'stop': getGetButtonInputFunction(2)
+// This maps each of the commands to their controller input function, and
+// whether or not they are analog controlls (and hence need to be stopped when
+// they are not being sent).
+const controllerMappings = {
+    left: {
+        getInput: getGetAxesInputFunction(0, false),
+        isAnalog: true,
+    },
+    right: {
+        getInput: getGetAxesInputFunction(0, true),
+        isAnalog: true,
+    },
+    front: {
+        getInput: getGetAxesInputFunction(1, false),
+        isAnalog: true,
+    },
+    back: {
+        getInput: getGetAxesInputFunction(1, true),
+        isAnalog: true,
+    },
+    counterClockwise: {
+        getInput: getGetAxesInputFunction(3, false),
+        isAnalog: true,
+    },
+    clockwise:  {
+        getInput: getGetAxesInputFunction(3, true),
+        isAnalog: true,
+    },
+    up: {
+        getInput: getGetAxesInputFunction(4, false),
+        isAnalog: true,
+    },
+    down: {
+        getInput: getGetAxesInputFunction(4, true),
+        isAnalog: true,
+    },
+    takeoff: {
+        getInput: getGetButtonInputFunction(0),
+        isAnalog: false,
+    },
+    land: {
+        getInput: getGetButtonInputFunction(1),
+        isAnalog: false,
+    },
+    stop: {
+        getInput: getGetButtonInputFunction(2),
+        isAnalog: false,
+    },
+		lights: {
+			getInput: getGetButtonInputFunction(3),
+			isAnalog: false,
+		},
 }
 
-var thereAreEvents = 'ongamepadconnected' in window;
+const sendControls = () => {
+    for (gamepadID in gamepads) {
+        // For each of the gamepads we need to work out what their commands are,
+        // and then send them to each of the drones assigned to that gamepad.
+        // This includes sending a stop command if last update the gamepad had
+        // sent an analog command but this update it didn't.
+        const gamepad = gamepads[gamepadID];
+        let sentAnalogCommandThisTime = false;
 
-// Yes, I know, redundancy.
+        // We work out the commands all together first to avoid different drones
+        // getting different insturctions from the same gamepad.
+        commandDegrees = {};
+        for (command in controllerMappings) {
+            const commandObject = controllerMappings[command];
+            const degree = commandObject.getInput(gamepadID)
 
-function gamepadConnectionHandler(event) {
-    addGamepad(event.gamepad);
-}
+            if (degree) {
+                commandDegrees[command] = degree;
 
-function addGamepad(gamepad) {
-    gamepads[gamepad.index] = gamepad;
-}
-
-function gamepadDisconnectionHandler(event) {
-    removeGamepad(event.gamepad);
-}
-
-function removeGamepad(gamepad) {
-    delete gamepads[gamepad.index];
-}
-
-function updateStatus() {
-    if (!thereAreEvents) {
-        scangamepads();
-    }
-
-    for (action in actionValueFunctions) {
-        let url = `/control/${droneToControlID}/${action}`;
-        let degree = actionValueFunctions[action]();
-        if (degree) {
-            fetch(url, {
-                method: 'POST',
-                body: JSON.stringify({degree: degree}),
-                headers: new Headers({
-                    'Content-Type': 'application/json'
-                })
-            })
+                if (commandObject.isAnalog) {
+                    sentAnalogCommandThisTime = true
+                };
+            }
         }
-    }
-}
-updateStatus();
-setInterval(updateStatus, 100);
 
-function scangamepads() {
-    var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
-    for (var i = 0; i < gamepads.length; i++) {
-        if (gamepads[i]) {
-            if (gamepads[i].index in gamepads) {
-                gamepads[gamepads[i].index] = gamepads[i];
-            } else {
-                addGamepad(gamepads[i]);
+        if (gamepad.sentAnalogCommandLastTime && !sentAnalogCommandThisTime) {
+            commandDegrees.stop = 1;
+        }
+        gamepad.sentAnalogCommandLastTime = sentAnalogCommandThisTime;
+
+        for (droneID of droneIDsControlledByGamepad[gamepadID]) {
+            for (command in commandDegrees) {
+                const url = `/control/${droneID}/${command}`;
+                // All the commands in commandDegrees had a non zero degree, so
+                // we can go ahead and send them all.
+                if (commandDegrees[command]) {
+                    fetch(url, {
+                        method: 'POST',
+                        body: JSON.stringify({degree: commandDegrees[command]}),
+                        headers: new Headers({
+                            'Content-Type': 'application/json'
+                        })
+                    });
+                }
             }
         }
     }
 }
 
-window.addEventListener('gamepadconnected', gamepadConnectionHandler);
-window.addEventListener('gamepaddisconnected', gamepadDisconnectionHandler);
-
-if (!thereAreEvents) {
-  setInterval(scangamepads, 500);
+const addGamepad = (gamepad) => {
+    gamepad.sentAnalogCommandLastTime = false;
+    // (^) For recording whether we need to tell the drones connected to that
+    // controller to stop after we stop sending an analog signal
+    gamepads[gamepad.index] = gamepad;
+		droneIDsControlledByGamepad[gamepad.index] = [];
+		createGamepadElement(gamepad.index);
 }
+
+const removeGamepad = (gamepad) => {
+    delete gamepads[gamepad.index];
+}
+
+sendControls();
+setInterval(sendControls, 100);
+
+//setInterval(console.log, 1000, gamepads);
+
+window.addEventListener(
+		'gamepadconnected', event => addGamepad(event.gamepad)
+);
+window.addEventListener(
+    'gamepaddisconnected', event => removeGamepad(event.gamepad)
+);

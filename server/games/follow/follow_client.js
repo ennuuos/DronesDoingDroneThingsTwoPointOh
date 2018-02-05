@@ -34,7 +34,7 @@ const game_module = () => {
 		context.stroke();
 	}, refreshRate, context);
 
-	setInterval(() => console.log(direction), 100);
+	//setInterval(() => console.log(direction), 100);
 
 
 

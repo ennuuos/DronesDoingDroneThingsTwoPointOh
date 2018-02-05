@@ -10,12 +10,15 @@ let list = {};
 let navdata = {};
 let drones = {};
 
+let gameNavdataCallback = () => {};
+
 const pingDrone = (id) => {
   let addr = address(id);
 
   ping.sys.probe(addr, (success) => {
-      if(success) create(id);
-      if(!success) remove(id);
+      // if(success) create(id);
+      // if(!success) remove(id);
+      (success ? create : remove)(id);
   }, {'timeout': 1});
 };
 
@@ -28,28 +31,32 @@ const pingAll = () => {
 const address = (id) => addrPrefix + id;
 for(let i = 0; i < 10; i++) {
     drones[i] = arDrone.createClient({ip: address(i)});
-		//drones[i].on('navdata', console.log);
+		drones[i].on('navdata', (data) => {
+			if(data.demo) {
+				if(!navdata[i]) console.log(`Drone ${i} connected`);
+				navdata[i] = data.demo;
+			}
+		});
 }
 
 
 
 const create = (id) => {
     if(id in list) return;
-    console.log(`Drone ${id} connected`);
-    list[id] = {'battery':0};
-    list[id].drone = drones[id];
-    list[id].drone.animateLeds('blinkOrange', 5, 2);
+    list[id] = drones[id];
+	drones[id].resume();
+    list[id].animateLeds('blinkOrange', 5, 2);
 };
 
 const remove = (id) => {
     if(!(id in list)) return;
     console.log(`Drone ${id} disconnected`);
     delete list[id];
+	if(navdata[id]) delete navdata[id];
 };
 
 const control = (id, action, degree) => {
     // Returns false if given an invalid command or degree, and true otherwise.
-
     if(!(id in list) || degree > 1 || degree < 0) return false;
 
     let actionsWithoutDegree = clientCommands
@@ -60,11 +67,11 @@ const control = (id, action, degree) => {
         .map(command => command['action']);
 
     if (action == "lights") {
-      list[id].drone.animateLeds('fire', 60, 2);
+      list[id].animateLeds('blinkGreenRed', 60, 2);
     } else if (actionsWithoutDegree.indexOf(action) > -1) {
-        list[id].drone[action]();
+        list[id][action]();
     } else if (actionsWithDegree.indexOf(action) > -1) {
-        list[id].drone[action](degree);
+        list[id][action](degree);
     } else {
         return false;
     }
@@ -73,28 +80,16 @@ const control = (id, action, degree) => {
 };
 
 const status = () => {
-    let status = {};
-    for(var id in list) {
-        status[id] = {'online': true};
-        status[id]['battery'] = list[id].drone.battery();
-    }
-    return status;
+    return navdata;
 };
 
 if(!config.debug.no_ping) setInterval(pingAll, 1000);
-
-if(config.debug.fake_drones) {
-    create(1);
-    create(3);
-    setInterval(()=>{list[1]['battery']+=1}, 1000);
-    setTimeout(()=>{ create(2)}, 3000);
-    setTimeout(()=>{ remove(3)}, 5000);
-}
 
 module.exports = {
     list: list,
     control: control,
     status: status,
+    gameNavdataCallback: gameNavdataCallback,
 };
 
 require('./tracker.js');

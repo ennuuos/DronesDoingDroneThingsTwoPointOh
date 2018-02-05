@@ -31,7 +31,10 @@ module.exports = function(app, drones) {
         res.send(drones.status());
     });
 
-		app.get('/js/game_module.js', (req, res) => {
-			res.sendFile(path.join(__dirname, config.games_directory, config.game, `${config.game}_client.js`));
-		});
+	app.get('/js/game_module.js', (req, res) => {
+		res.sendFile(path.join(__dirname, config.games_directory, config.game, `${config.game}_client.js`));
+	});
+    app.get('/game', (req, res) => {
+        res.render(path.join(__dirname, config.games_directory, config.game, `game.pug`));
+    });
 };
