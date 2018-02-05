@@ -8,8 +8,6 @@ const game_module = () => {
 	let game_div = document.getElementById('game_div');
     game_div.style = "display:grid; grid-template-columns: 50% 50%; text-align: center; vertical-align:middle; font-size: 120px;";
 
-    let score_one = 1;
-    let score_two = 3;
 
 	let score_one_div = document.createElement('div')
     game_div.appendChild(score_one_div);
