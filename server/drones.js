@@ -1,5 +1,6 @@
 const arDrone = require('ar-drone')
 const ping = require('ping');
+const tracker = require('./tracker');
 
 let config = require('./config.json');
 let clientCommands = require('./clientCommands.json')
@@ -9,6 +10,7 @@ const addrPrefix = config.network.ip_base;
 let list = {};
 let navdata = {};
 let drones = {};
+var cameras = {};
 
 let gameNavdataCallback = () => {};
 
@@ -39,20 +41,21 @@ for(let i = 0; i < 10; i++) {
 		});
 }
 
-
-
 const create = (id) => {
     if(id in list) return;
     list[id] = drones[id];
 	drones[id].resume();
     list[id].animateLeds('blinkOrange', 5, 2);
+    cameras[id] = drones[id].getPngStream();
 };
 
 const remove = (id) => {
     if(!(id in list)) return;
     console.log(`Drone ${id} disconnected`);
     delete list[id];
-	if(navdata[id]) delete navdata[id];
+	  if(navdata[id]) delete navdata[id];
+    delete cameras[id];
+
 };
 
 const control = (id, action, degree) => {
@@ -90,37 +93,5 @@ module.exports = {
     control: control,
     status: status,
     gameNavdataCallback: gameNavdataCallback,
+    cameras: cameras,
 };
-
-var http    = require('http');
-
-if(1 in drones) {
-  pngStream = drones[1].getPngStream();
-
-  var lastPng;
-  pngStream
-    .on('error', console.log)
-    .on('data', function(pngBuffer) {
-      lastPng = pngBuffer;
-
-      var frameCounter = 0;
-      var saveDir = '/home/aedus/Projects/DronesDoingDroneThingsTwoPointOh/Images';
-      var fs = require('fs');
-
-      pngStream
-        .on('error', console.log)
-        .on('data', function(pngBuffer) {
-
-
-        var imageName = saveDir + '/lastPng.png';
-        fs. writeFile(imageName, pngBuffer, function(err) {
-          if (err) {
-            console.log('Buffer Error: Error saving PNG: ' + err);
-          }
-        });
-
-        console.log(imageName);
-        frameCounter++;
-      });
-    });
-}
