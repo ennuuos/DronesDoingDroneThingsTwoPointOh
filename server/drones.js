@@ -92,4 +92,4 @@ module.exports = {
     gameNavdataCallback: gameNavdataCallback,
 };
 
-require('./tracker.js');
+// require('./tracker.js');
