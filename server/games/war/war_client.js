@@ -1,4 +1,6 @@
 
+let score_one = 1;
+let score_two = 3;
 const game_module = () => {
 
 	console.log("Loaded war game");
@@ -18,11 +20,12 @@ const game_module = () => {
     score_two_div.style = "border-left: 2px solid grey;"
 
     fetch('/game/1', {
-        method: 'POST';
-    };
+        method: 'POST',
+    });
     fetch('/game/2', {
-        method: 'POST';
-    };
+        method: 'POST',
+    });
+    
 	setInterval(() => {
         score_one_div.innerHTML = score_one;
         score_two_div.innerHTML = score_two;

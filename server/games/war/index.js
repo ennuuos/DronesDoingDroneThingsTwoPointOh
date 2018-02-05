@@ -8,20 +8,19 @@ const emergencyModeControlStateName = 'CTRL_DEFAULT';
 // mode.
 const droneGameStatuses = {};
 
-const updateStatusFromNavdata = (droneID, navdata) => {
-    const newInEmergencyModeValue = navdata.controlState ==
-        emergencyModeControlStateName;
-    entredEmergencyMode = newInEmergencyModeValue &&
-        !droneGameStatuses.inEmergecyMode;
-    droneGameStatus.inEmergecyMode = newInEmergencyModeValue;
-
-    if (entredEmergencyMode) {
-        for (droneID in droneGameStatuses) {
-            if (!droneGameStatuses[droneID].inEmergecyMode) {
-                // If this drone entred emergency mode since the last check,
+const updateStatusFromNavdata = (droneId, navdata) => {
+    const newInEmergencyModeValue =
+        navdata.controlState == emergencyModeControlStateName;
+    let enteredEmergencyMode =
+        newInEmergencyModeValue && !droneGameStatuses[droneId].inEmergencyMode;
+    droneGameStatuses[droneId].inEmergencyMode = newInEmergencyModeValue;
+    if (enteredEmergencyMode) {
+        for (droneId in droneGameStatuses) {
+            if (!droneGameStatuses[droneId].inEmergencyMode) {
+                // If this drone entred emergency mode since; the last check,
                 // every other drone that isn't currently in emergency mode gets
                 // points.
-                droneGameStatuses[droneID].score += 1;
+                droneGameStatuses[droneId].score += 1;
             }
         }
     }
@@ -40,8 +39,13 @@ module.exports = (app, drones) => {
             score: score,
             inEmergencyMode: inEmergencyMode
         };
+        drones.list[request.params.id].on('navdata', (data) => {
+            if(data.demo) {
+                updateStatusFromNavdata(request.params.id, data.demo);
+            }
+        });
         response.status(200).send('OK');
-    })
+    });
 
     app.delete('/game/:id', (request, response) => {
         const id = request.params.id;
@@ -51,16 +55,13 @@ module.exports = (app, drones) => {
         } else {
             response.status(400).send('Bad Request');
         }
-    })
+    });
 
     app.get('/game/scores', (request, response) => {
         const scores = {};
-        for (droneID in droneGameStatuses) {
-            scores[droneID] = droneGameStatuses[droneID].score;
+        for (droneId in droneGameStatuses) {
+            scores[droneId] = droneGameStatuses[droneId].score;
         }
         response.send(scores);
-    })
-
-    // Set updateStatusFromNavdata to actually be called when navdata is ready.
-    drones.gameNavdataCallback = updateStatusFromNavdata;
-}
+    });
+};
