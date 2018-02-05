@@ -10,8 +10,6 @@ let list = {};
 let navdata = {};
 let drones = {};
 
-let gameNavdataCallback = () => {};
-
 const pingDrone = (id) => {
   let addr = address(id);
 
@@ -89,7 +87,6 @@ module.exports = {
     list: list,
     control: control,
     status: status,
-    gameNavdataCallback: gameNavdataCallback,
 };
 
 // require('./tracker.js');

@@ -85,10 +85,15 @@ const controllerMappings = {
         getInput: getGetButtonInputFunction(2),
         isAnalog: false,
     },
-		lights: {
-			getInput: getGetButtonInputFunction(3),
-			isAnalog: false,
-		},
+	lights: {
+		getInput: getGetButtonInputFunction(3),
+		isAnalog: false,
+	},
+    // Use the right trigger for an arbitrary game control.
+    gameAction: {
+        getInput: getGetAxesInputFunction(5),
+        isAnalog: false,
+    }
 }
 
 const sendControls = () => {
