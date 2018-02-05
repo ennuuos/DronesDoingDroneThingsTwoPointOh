@@ -38,7 +38,6 @@ const removeElements = function() {
 	}
 }
 const removeElement = function(id) {
-	console.log(id);
 	document.getElementById('selection_div').removeChild(drone_elements[id]);
 	delete drone_elements[id];
 }

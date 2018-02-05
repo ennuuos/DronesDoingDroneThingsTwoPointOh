@@ -11,6 +11,8 @@ html
 	body(onload='game_module()')
 		h2(style="text-align: center; margin-bottom: 50px;") Drone Control
 		div(id='game_div')
+			div(onclick='addDronesToGame()' style='font-size: 30px !important;') ADD
+			div(onclick='removeDronesFromGame()' style='font-size: 30px !important;') REMOVE
 		div(id='gamepad_div')
 			div(id="bind_gamepad_button" onclick="bindGamepads()") BIND GAMEPADS
 		div(id='selection_div')
