@@ -1,45 +1,42 @@
-var arDrone = require('..');
-var http    = require('http');
-
-pngStream = drones[1].getPngStream();
-
-var lastPng;
-pngStream
-  .on('error', console.log)
-  .on('data', function(pngBuffer) {
-    lastPng = pngBuffer;
-    console.log('New PNG');
-  });
-
-  //const tracker = require('./tracker.js')
-
-  /* new insert
-
-  var fs = require('fs');
-  var pngStream = drones[1].getPngStream();
-  var frameCounter = 0;
-  var saveDir = '/home/Projects/DronesDoingDroneThingsTwoPointOh/Images';
-
-  console.log('Inside PNGStream')
-
-  pngStream
-    .on('error', console.log)
-    .on('data', function(pngBuffer) {
+makeCamera = function(id) {
+  cameras[id] = drones.drones[id].getPngStream();
+  console.log('Camera for drone ' + id + ' created');
+}
 
 
-    var imageName = saveDir + '/savePNG' + frameCounter +
-  '.png';
-    fs. writeFile(imageName, pngBuffer, function(err) {
-      if (err) {
-        console.log('Error saving PNG: ' + err);
-      }
-    });
+getPng = function(cameras) {
+  console.log('getPng Running');
+  for(i in cameras) {
 
-    console.log(imageName);
+    var lastPng;
+    cameras[i]
+      .on('error', console.log)
+      .on('data', function(pngBuffer) {
+        lastPng = pngBuffer;
 
-    frameCounter++;
-  });
+        var frameCounter = 0;
+        var saveDir = '/home/aedus/Projects/DronesDoingDroneThingsTwoPointOh/Images';
+        var fs = require('fs');
 
-  console.log('Leaving PNGStream');
+        cameras[i]
+          .on('error', console.log)
+          .on('data', function(pngBuffer) {
 
-*/
+          var imageName = saveDir + '/drone'+ i + '.png';
+          fs. writeFile(imageName, pngBuffer, function(err) {
+            if (err) {
+              console.log('Buffer Error: Error saving PNG: ' + err);
+            }
+          console.log(imageName);
+          });
+
+          frameCounter++;
+        });
+      });
+  }
+};
+
+module.exports = {
+  makeCamera: makeCamera,
+  getPng: getPng,
+};
