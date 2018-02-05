@@ -11,6 +11,7 @@ let list = {};
 let navdata = {};
 let drones = {};
 var cameras = {};
+var videoStreams = {};
 
 let gameNavdataCallback = () => {};
 
@@ -94,4 +95,5 @@ module.exports = {
     status: status,
     gameNavdataCallback: gameNavdataCallback,
     cameras: cameras,
+    videoStreams: videoStreams,
 };

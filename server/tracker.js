@@ -1,5 +1,6 @@
 makeCamera = function(id) {
   cameras[id] = drones[id].getPngStream();
+  videoStreams[id] = drones[id].getVideoStream();
   console.log('Camera for drone ' + id + ' created');
 }
 
