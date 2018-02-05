@@ -9,6 +9,11 @@ const emergencyModeControlStateName = 'CTRL_DEFAULT';
 const droneGameStatuses = {};
 
 const updateStatusFromNavdata = (droneId, navdata) => {
+    // If the drone has been deleted from the game, this callback will still be
+    // being called on navdata, so, we need to ignore drones not currently in
+    // the list.
+    if (!droneGameStatuses.hasOwnProperty(droneId)) return;
+
     const newInEmergencyModeValue =
         navdata.controlState == emergencyModeControlStateName;
     let enteredEmergencyMode =
@@ -39,6 +44,12 @@ module.exports = (app, drones) => {
             score: score,
             inEmergencyMode: inEmergencyMode
         };
+
+        if (!drones.list.hasOwnProperty(request.params.id)) {
+            response.status(400).send('Bad Request');
+            return;
+        }
+
         drones.list[request.params.id].on('navdata', (data) => {
             if(data.demo) {
                 updateStatusFromNavdata(request.params.id, data.demo);
