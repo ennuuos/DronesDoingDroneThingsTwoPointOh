@@ -11,9 +11,12 @@ let list = {};
 let navdata = {};
 let drones = {};
 var cameras = {};
+<<<<<<< HEAD
 var videoStreams = {};
 
 let gameNavdataCallback = () => {};
+=======
+>>>>>>> 2cc45b2a53771e293c578be03774b9aaa73bc1c6
 
 const pingDrone = (id) => {
   let addr = address(id);
@@ -44,10 +47,19 @@ for(let i = 0; i < 10; i++) {
 
 const create = (id) => {
     if(id in list) return;
+<<<<<<< HEAD
     list[id] = drones[id];
 	drones[id].resume();
     list[id].animateLeds('blinkOrange', 5, 2);
     cameras[id] = drones[id].getPngStream();
+=======
+    console.log(`Drone ${id} connected`);
+    list[id] = {'battery':0};
+    list[id].drone = drones[id];
+    list[id].drone.animateLeds('blinkOrange', 5, 2);
+    cameras[id] = drones[id].getPngStream();
+    console.log('made camera for ' + id);
+>>>>>>> 2cc45b2a53771e293c578be03774b9aaa73bc1c6
 };
 
 const remove = (id) => {
@@ -93,7 +105,11 @@ module.exports = {
     list: list,
     control: control,
     status: status,
+<<<<<<< HEAD
     gameNavdataCallback: gameNavdataCallback,
     cameras: cameras,
     videoStreams: videoStreams,
+=======
+    cameras: cameras,
+>>>>>>> 2cc45b2a53771e293c578be03774b9aaa73bc1c6
 };
