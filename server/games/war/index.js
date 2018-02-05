@@ -40,15 +40,16 @@ module.exports = (app, drones) => {
         const score = request.body.score | defaultScore;
         const inEmergencyMode = request.body.inEmergencyMode |
             defaultInEmergencyModeValue;
-        droneGameStatuses[request.params.id] = {
-            score: score,
-            inEmergencyMode: inEmergencyMode
-        };
 
         if (!drones.list.hasOwnProperty(request.params.id)) {
             response.status(400).send('Bad Request');
             return;
         }
+        
+        droneGameStatuses[request.params.id] = {
+            score: score,
+            inEmergencyMode: inEmergencyMode
+        };
 
         drones.list[request.params.id].on('navdata', (data) => {
             if(data.demo) {
