@@ -17,9 +17,19 @@ const game_module = () => {
     score_one_div.style = "border-right: 2px solid grey;"
     score_two_div.style = "border-left: 2px solid grey;"
 
+    fetch('/game/1', {
+        method: 'POST';
+    };
+    fetch('/game/2', {
+        method: 'POST';
+    };
 	setInterval(() => {
         score_one_div.innerHTML = score_one;
         score_two_div.innerHTML = score_two;
+    }, 100);
+
+    setInterval(() => {
+        fetchScores();
     }, 100);
 
 
@@ -29,7 +39,7 @@ const fetchScores = function() {
     fetch('/game/scores')
     .then(res => res.json())
     .then(data => {
-        score_one = data.score_one;
-        score_two = data.score_two;
+        score_one = data[1];
+        score_two = data[2];
     }).catch(err => console.log(err));
 }
