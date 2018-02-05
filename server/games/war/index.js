@@ -33,10 +33,10 @@ module.exports = (app, drones) => {
     app.post('/game/:id', (request, response) => {
         // If json containing a value for score or whether it is currently in
         // emergency mode is posted, store those values.
-        const score = req.body.score | defaultScore;
-        const inEmergencyMode = req.body.inEmergencyMode |
+        const score = request.body.score | defaultScore;
+        const inEmergencyMode = request.body.inEmergencyMode |
             defaultInEmergencyModeValue;
-        droneScores[request.params.id] = {
+        droneGameStatuses[request.params.id] = {
             score: score,
             inEmergencyMode: inEmergencyMode
         };
@@ -45,8 +45,8 @@ module.exports = (app, drones) => {
 
     app.delete('/game/:id', (request, response) => {
         const id = request.params.id;
-        if (droneScores.hasOwnProperty(id)) {
-            delete droneScores.id;
+        if (droneGameStatuses.hasOwnProperty(id)) {
+            delete droneGameStatuses[id];
             response.status(200).send('OK');
         } else {
             response.status(400).send('Bad Request');
