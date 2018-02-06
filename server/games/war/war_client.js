@@ -6,7 +6,7 @@ const game_module = () => {
 	console.log("Loaded war game");
 
 	let game_div = document.getElementById('game_div');
-    game_div.style = "display:grid; text-align: center; vertical-align:middle; font-size: 120px;";
+    game_div.style = "display:grid; text-align: center; vertical-align:middle; font-size: 40px;";
 
 
     setInterval(() => {
@@ -20,7 +20,14 @@ const game_module = () => {
 const createDiv = function(id) {
     let game_div = document.getElementById('game_div');
     score_divs[id] = document.createElement('div');
-    score_divs[id].style = `border-right: 2px solid grey; border-left: 2px solid grey; grid-column: ${id}`;
+    let styles = {
+        0: "color: red; grid-column: 1;",
+        1: "color: green; grid-column: 2;",
+        2: "color: blue; grid-column: 3;",
+        3: "color: black; grid-column: 4;",
+    };
+    score_divs[id].style = styles[id];
+    console.log(score_divs[id]);
     game_div.appendChild(score_divs[id]);
 }
 
@@ -34,7 +41,7 @@ const renderScores = function() {
             delete score_divs[k];
             continue;
         }
-        score_divs[k].innerHTML = scores[k];
+        score_divs[k].innerHTML = `<span style="font-size: 18px;">Drone ${k}</span><br>${scores[k]}`;
 
     }
 }
