@@ -100,8 +100,8 @@ const status = () => {
 
 if(!config.debug.no_ping) setInterval(pingAll, 1000);
 
-for(let streamId in pngStreams) {
-  getPng(streamId);
+for(let id in pngStreams) {
+  getPng(id);
 }
 
 module.exports = {
