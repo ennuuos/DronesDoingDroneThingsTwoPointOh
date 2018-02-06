@@ -1,41 +1,21 @@
 makeCamera = function(id) {
   cameras[id] = drones[id].getPngStream();
   videoStreams[id] = drones[id].getVideoStream();
-  console.log('Camera for drone ' + id + ' created');
+  console.log('Cameras for drone ' + id + ' created');
 }
 
 
-getPng = function(cameras) {
-  console.log('getPng Running');
-  for(i in cameras) {
+getPng = function(id) {
+  console.log('getting Png');
 
-    var lastPng;
-    cameras[i]
+    pngStreams[id]
       .on('error', console.log)
       .on('data', function(pngBuffer) {
-        lastPng = pngBuffer;
-
-        var frameCounter = 0;
-        var saveDir = '/home/aedus/Projects/DronesDoingDroneThingsTwoPointOh/Images';
-        var fs = require('fs');
-
-        cameras[i]
-          .on('error', console.log)
-          .on('data', function(pngBuffer) {
-
-          var imageName = saveDir + '/drone'+ i + '.png';
-          fs. writeFile(imageName, pngBuffer, function(err) {
-            if (err) {
-              console.log('Buffer Error: Error saving PNG: ' + err);
-            }
-          console.log(imageName);
-          });
-
-          frameCounter++;
-        });
+        images[id] = pngBuffer;
       });
-  }
-};
+     }
+
+
 
 module.exports = {
   makeCamera: makeCamera,
