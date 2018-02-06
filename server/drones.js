@@ -1,6 +1,6 @@
 const arDrone = require('ar-drone')
 const ping = require('ping');
-const tracker = require('./tracker');
+const vision = require('./vision');
 
 let config = require('./config.json');
 let clientCommands = require('./clientCommands.json')
@@ -101,7 +101,7 @@ const status = () => {
 if(!config.debug.no_ping) setInterval(pingAll, 1000);
 
 for(let id in pngStreams) {
-  getPng(id);
+  vision.getPng(id);
 }
 
 module.exports = {
