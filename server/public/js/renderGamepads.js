@@ -48,20 +48,20 @@ const gamepadElementTemplate = function(id) {
 	return `
 		Gamepad ${id}
 		<br>
-		${droneIDsControlledByGamepad[id]}
+		${gamepadDroneIds[id]}
 	`;
 }
 
 const bindGamepads = function() {
 	console.log(gamepads_selected);
 	console.log(drones_selected);
-	console.log(droneIDsControlledByGamepad);
+	console.log(gamepadDroneIds);
 	for(let g_id in gamepads_selected) {
 		let d_list = [];
 		for(let d_id in drones_selected) {
 			d_list.push(d_id);
 		}
-		droneIDsControlledByGamepad[g_id] = d_list;
+		gamepadDroneIds[g_id] = d_list;
 	}
 }
 
