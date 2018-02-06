@@ -25,7 +25,7 @@ const addElement = function(id) {
 	drone_elements[id] = document.createElement('div');
 	document.getElementById('selection_div').appendChild(drone_elements[id]);
 	drone_elements[id].id = id;
-    drone_elements[id].style = `grid-column: ${parseInt(id) + 1}`;
+    drone_elements[id].style = `grid-row: 1;grid-column: ${parseInt(id) + 1}`;
 	drone_elements[id].addEventListener('click',
 		function(event) {
 			toggleSelect(event.target.id);
