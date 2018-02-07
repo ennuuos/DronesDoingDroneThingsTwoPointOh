@@ -1,4 +1,5 @@
 const path = require('path');
+const vision = require('../../vision.js');
 const config = require('../../config.json');
 
 console.log("Loaded Drone Wars game");
@@ -65,19 +66,30 @@ module.exports = (app, drones) => {
         }
 
         const now = new Date();
-        if (now - droneGameStatuses[id].lastPhotoTime < photoCoolDownTime) {
-            response.status(200).send('OK');
+        if (
+            now - droneGameStatuses[request.params.id].lastPhotoTime
+                < photoCoolDownTime
+        ) {
+            console.log(
+                `Drone ${request.params.id} failed photo due to cooldown.`
+            )
             return;
         }
-        droneGameStatuses[id].lastPhotoTime = now;
+        droneGameStatuses[request.params.id].lastPhotoTime = now;
 
-        pendingImages.push({droneId: id, image: drones.images[id]});
+        pendingImages.push({
+            droneId: request.params.id,
+            image: drones.images[request.params.id]
+        });
+
+        console.log(`Drone ${request.params.id} took a photo.`)
+
+        response.status(200).send('OK');
     })
 
     app.get('/game/referee', (request, response) => {
         response.render(path.join(__dirname, 'referee.pug'));
     });
-
     app.get('/js/photoReferee.js', (request, response) => {
         response.sendFile(path.join(__dirname, 'referee.js'))
     })
@@ -98,10 +110,9 @@ module.exports = (app, drones) => {
             return;
         }
 
-        const imagePath = path.join(
-            __dirname, config.games_directory, config.game, 'next_image.png'
-        );
-        drones.vision.savePng(imagePath, pendingImages[0])
-		response.sendFile(imagePath);
+        const imagePath = path.join(__dirname, 'next_image.png');
+        vision.savePng(imagePath, pendingImages[0].image).then(() => {
+            response.sendFile(imagePath)
+        });
 	});
 };

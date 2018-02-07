@@ -1,6 +1,5 @@
 const arDrone = require('ar-drone')
 const ping = require('ping');
-const vision = require('./vision');
 
 let config = require('./config.json');
 let clientCommands = require('./clientCommands.json')
@@ -10,7 +9,6 @@ const addrPrefix = config.network.ip_base;
 let list = {};
 let navdata = {};
 let drones = {};
-var pngStreams = {};
 var videoStreams = {};
 var images = {};
 
@@ -38,24 +36,17 @@ for(let i = 0; i < 10; i++) {
 				if(!navdata[i]) console.log(`Drone ${i} connected`);
 				navdata[i] = data.demo;
 			}
+            drones[i].getPngStream()
+                .on('error', console.log)
+                .on('data', pngBuffer => {images[i] = pngBuffer})
 		});
 }
 
 const create = (id) => {
     if(id in list) return;
-
     list[id] = drones[id];
 	drones[id].resume();
     list[id].animateLeds('blinkOrange', 5, 2);
-    pngStreams[id] = drones[id].getPngStream();
-
-    console.log(`Drone ${id} connected`);
-    list[id] = {'battery':0};
-    list[id].drone = drones[id];
-    list[id].drone.animateLeds('blinkOrange', 5, 2);
-    pngStreams[id] = drones[id].getPngStream();
-    console.log('made camera for ' + id);
-
 };
 
 const remove = (id) => {
@@ -93,20 +84,14 @@ const control = (id, action, degree) => {
 
 const status = () => {
     return navdata;
-};var lastPng;
+};
 
 if(!config.debug.no_ping) setInterval(pingAll, 1000);
-
-for(let id in pngStreams) {
-  vision.getPng(id);
-  vision.savePng(__dirname, images[1]);
-}
 
 module.exports = {
     list: list,
     control: control,
     status: status,
-    gameNavdataCallback: gameNavdataCallback,
-    pngStreams: pngStreams,
     videoStreams: videoStreams,
+    images: images,
 }

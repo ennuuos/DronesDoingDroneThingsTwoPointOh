@@ -1,7 +1,7 @@
 // This file takes the commands from connected gamepads and decides from them
 // what control commands to send to the server.
 
-const gamepadAxisThreshold = 0.03;
+const gamepadAxisThreshold = 0.15;
 const gamepads = {};
 const gamepadDroneIds = {};
 // Currently arbitrary (^), but will eventually be controlled by the user.
