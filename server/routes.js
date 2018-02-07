@@ -32,7 +32,7 @@ module.exports = function(app, drones) {
     });
 
     app.get('/game', (req, res) => {
-        res.render(path.join(__dirname, config.games_directory, `game.pug`), {
+        res.render(path.join(__dirname, config.games_directory, 'game.pug'), {
             gameName: config.game[0].toUpperCase() + config.game.slice(1)
         });
     });

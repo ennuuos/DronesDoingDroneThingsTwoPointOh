@@ -1,0 +1,9 @@
+html
+    head
+        title Photo Game Refereeing
+        link(rel='/css/photo_referee_styles.css')
+        script(src='/js/photoReferee.js')
+    body(onload='updateImage()')
+        img(id='image-to-be-refereed')
+        #yesButton(onclick='sendContainsDrone(true)') YES
+        #noButton(onclick='sendContainsDrone(false)') NO

@@ -100,7 +100,6 @@ body {
 #game_div #removeButton {
     grid-column-start: 3;
     grid-column-end: 5;
-
 }
 
 #gamepad_div {

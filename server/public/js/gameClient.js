@@ -37,7 +37,6 @@ const renderScores = function() {
             continue;
         }
         score_divs[k].innerHTML = `<span style="font-size: 18px;">Drone ${k}</span><br>${scores[k]}`;
-
     }
 }
 

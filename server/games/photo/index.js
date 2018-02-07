@@ -1,3 +1,4 @@
+const path = require('path');
 const config = require('../../config.json');
 
 console.log("Loaded Drone Wars game");
@@ -10,9 +11,16 @@ const pendingImages = [];
 const yesPoints = 1;
 const noPoints = -1;
 
-const handleImage = containsDrone => {
-    droneGameStatuses[endingImages.shift().droneId].score +=
+const handleImage = (containsDrone, response) => {
+    if (pendingImages.length <= 0) {
+        response.status(204).send('No Content');
+        return;
+    }
+
+    droneGameStatuses[pendingImages.shift().droneId].score +=
         containsDrone ? yesPoints : noPoints;
+
+    response.status(200).send('OK');
 }
 
 module.exports = (app, drones) => {
@@ -67,11 +75,22 @@ module.exports = (app, drones) => {
     })
 
     app.get('/game/referee', (request, response) => {
-        // Serve the referee page.
+        response.render(path.join(__dirname, 'referee.pug'));
     });
 
-    app.post('/game/referee/yes', () => {handleImage(true)});
-    app.post('/game/referee/no', () => {handleImage(false)});
+    app.get('/js/photoReferee.js', (request, response) => {
+        response.sendFile(path.join(__dirname, 'referee.js'))
+    })
+    app.get('/css/photo_referee_styles.css', (request, response) => {
+        response.sendFile(path.join(__dirname, 'referee.css'))
+    })
+
+    app.post('/game/referee/yes', (request, response) => {
+        handleImage(true, response)
+    });
+    app.post('/game/referee/no', (request, response) => {
+        handleImage(false, response)
+    });
 
 	app.get('/game/referee/next_image.png', (request, response) => {
         if (pendingImages.length <= 0) {
@@ -80,7 +99,7 @@ module.exports = (app, drones) => {
         }
 
         const imagePath = path.join(
-            __dirname, config.games_directory, 'config.game, `next_image.png`'
+            __dirname, config.games_directory, config.game, 'next_image.png'
         );
         drones.vision.savePng(imagePath, pendingImages[0])
 		response.sendFile(imagePath);
