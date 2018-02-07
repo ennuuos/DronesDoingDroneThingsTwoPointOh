@@ -1,10 +1,11 @@
 html
     head
-        title War Game
+        title #{gameName} Game
         link(rel='stylesheet', href='/css/index.css')
-        script(src='/js/game_module.js')
-    body(onload="game_module()")
-        h2(style="text-align: center; margin-bottom: 50px;") War Game
+        script(src='/js/gameClient.js')
+    body(onload="startGame()")
+        h2(style="text-align: center; margin-bottom: 50px;")
+            #{gameName} Game
         div(id='game_div')
             div(onclick='addDronesToGame()') ADD
             div(onclick='removeDronesFromGame()') REMOVE

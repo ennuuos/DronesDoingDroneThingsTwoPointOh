@@ -1,4 +1,4 @@
-const config = require('../config.json');
+const config = require('../../config.json');
 
 console.log("Loaded Drone Wars game");
 
@@ -82,7 +82,7 @@ module.exports = (app, drones) => {
         const imagePath = path.join(
             __dirname, config.games_directory, 'config.game, `next_image.png`'
         );
-        drones.vision.save(imagePath, )
+        drones.vision.savePng(imagePath, pendingImages[0])
 		response.sendFile(imagePath);
 	});
 };

@@ -7,8 +7,8 @@ html
 		script(src='/js/selectDrones.js')
 		script(src='/js/gamepad.js')
 		script(src='/js/renderGamepads.js')
-		script(src='/js/game_module.js')
-	body(onload='game_module()')
+		script(src='/js/gameClient.js')
+	body(onload='gameStart()')
 		h2(style="text-align: center; margin-bottom: 50px;") Drone Control
 		div(id='game_div')
 			div(onclick='addDronesToGame()' style='font-size: 30px !important;') ADD

@@ -1,20 +1,15 @@
 
 let scores = {};
 let score_divs = {};
-const game_module = () => {
 
-	console.log("Loaded war game");
-
+const startGame = () => {
 	let game_div = document.getElementById('game_div');
     game_div.style = "display:grid; text-align: center; vertical-align:middle; font-size: 120px;";
-
 
     setInterval(() => {
         fetchScores();
         renderScores();
     }, 100);
-
-
 };
 
 const createDiv = function(id) {
@@ -35,7 +30,6 @@ const renderScores = function() {
             continue;
         }
         score_divs[k].innerHTML = scores[k];
-
     }
 }
 

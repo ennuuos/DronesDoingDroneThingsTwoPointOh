@@ -10,6 +10,10 @@ require('./routes')(app, drones);
 
 let config = require('./config.json');
 
-let game = require(path.join(__dirname, config.games_directory, config.game))(app, drones);
+let game = require(
+    path.join(__dirname, config.games_directory, config.game)
+)(app, drones);
 
-app.listen(config.network.port, () => console.log(`Drone app listening on port ${config.network.port}.`));
+app.listen(config.network.port, () => console.log(
+    `Drone app listening on port ${config.network.port}.`
+));
