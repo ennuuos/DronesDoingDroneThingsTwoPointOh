@@ -39,7 +39,7 @@ module.exports = (app, drones) => {
             score: score,
             inEmergencyMode: inEmergencyMode
         };
-        drones.list[request.params.id].on('navdata', (data) => {
+        if(drones.list[request.params.id]) drones.list[request.params.id].on('navdata', (data) => {
             if(data.demo) {
                 updateStatusFromNavdata(request.params.id, data.demo);
             }

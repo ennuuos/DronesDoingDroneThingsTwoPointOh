@@ -15,8 +15,8 @@ module.exports = function(app, drones) {
       });
 
     app.get('/camera', (req, res) => {
-        res.render();
-        });
+        res.render('camera', {});
+    });
 
     app.post('/control/:id/:action', (req, res) => {
         console.log(req.url, req.body.degree);

@@ -14,4 +14,4 @@ let game = require(path.join(__dirname, config.games_directory, config.game))(ap
 
 app.listen(config.network.port, () => console.log(`Drone app listening on port ${config.network.port}.`));
 
-const tracker = require('./tracker.js');
+const vision = require('./vision.js');
