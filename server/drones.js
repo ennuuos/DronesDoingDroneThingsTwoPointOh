@@ -102,6 +102,7 @@ if(!config.debug.no_ping) setInterval(pingAll, 1000);
 
 for(let id in pngStreams) {
   vision.getPng(id);
+  vision.savePng(__dirname, images[1]);
 }
 
 module.exports = {
