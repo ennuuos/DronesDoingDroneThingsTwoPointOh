@@ -12,6 +12,10 @@ module.exports = function(app, drones) {
             defaultDegree: config.default_degree,
             clientCommands: clientCommands
         });
+      });
+
+    app.get('/camera', (req, res) => {
+        res.render('camera', {});
     });
 
     app.post('/control/:id/:action', (req, res) => {

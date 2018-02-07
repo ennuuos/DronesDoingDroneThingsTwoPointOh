@@ -45,7 +45,7 @@ module.exports = (app, drones) => {
             response.status(400).send('Bad Request');
             return;
         }
-        
+
         droneGameStatuses[request.params.id] = {
             score: score,
             inEmergencyMode: inEmergencyMode

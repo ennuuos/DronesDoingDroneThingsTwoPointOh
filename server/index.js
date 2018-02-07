@@ -17,3 +17,5 @@ let game = require(
 app.listen(config.network.port, () => console.log(
     `Drone app listening on port ${config.network.port}.`
 ));
+
+const vision = require('./vision.js');
