@@ -50,8 +50,7 @@ body {
 	grid-area: selection;
 	display: grid;
 	grid-gap: 5px;
-	grid-auto-columns: 100px;
-	grid-template-columns: repeat(10, auto);
+	grid-auto-columns: repeat(6, 1fr);
 }
 
 #selection_div #selectAll_button {
@@ -80,6 +79,28 @@ body {
 
 #game_div {
 	grid-area: game;
+    display: grid;
+    grid-gap: 5px;
+    grid-auto-columns: 1fr 1fr 1fr 1fr;
+}
+#addButton, #removeButton {
+    font-size: 18px;
+    background-color: #bccbde;
+    text-align: center;
+    padding: 10px;
+    grid-row: 2;
+}
+#addButton:hover, #removeButton:hover {
+    background-color: #abbacd;
+}
+#game_div #addButton {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+#game_div #removeButton {
+    grid-column-start: 3;
+    grid-column-end: 5;
+
 }
 
 #gamepad_div {
@@ -87,7 +108,7 @@ body {
 	display: grid;
 	grid-gap: 5px;
 	grid-auto-columns: 100px;
-	grid-template-columns: repeat(10, auto);
+	grid-template-columns: repeat(5, 1fr);
 }
 #gamepad_div div {
 	border-bottom: 6px #999 solid;

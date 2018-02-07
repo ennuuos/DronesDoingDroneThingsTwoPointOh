@@ -14,7 +14,6 @@ const fetchData = function() {
 const sendCommand = function(command, degree) {
 	for(let id in drones_selected) {
 		let url = `/control/${id}/${command}`;
-		console.log(`url | ${degree}`);
 		fetch(url, {
 			method: 'POST',
 			body: JSON.stringify({degree: degree}),

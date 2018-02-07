@@ -1,23 +1,23 @@
 html
-	head
-		title Drones Doing Drone Things
-		link(rel='stylesheet', href='/css/index.css')
-		script(src='/js/server_fetch.js')
-		script(src='/js/renderDrones.js')
-		script(src='/js/selectDrones.js')
-		script(src='/js/gamepad.js')
-		script(src='/js/renderGamepads.js')
-		script(src='/js/gameClient.js')
-	body(onload='gameStart()')
-		h2(style="text-align: center; margin-bottom: 50px;") Drone Control
-		div(id='game_div')
-			div(onclick='addDronesToGame()' style='font-size: 30px !important;') ADD
-			div(onclick='removeDronesFromGame()' style='font-size: 30px !important;') REMOVE
-		div(id='gamepad_div')
-			div(id="bind_gamepad_button" onclick="bindGamepads()") BIND GAMEPADS
-		div(id='selection_div')
-			div(id='selectAll_button' onclick='selectAll()') Select All
-		div(id='control_div')
-			for clientCommand in clientCommands
-				div(id=clientCommand.div_id onclick=`sendCommand(\"${clientCommand.action}\", ${defaultDegree})` style=`grid-area: ${clientCommand.div_id};`) #{clientCommand.div_contents}
-		footer Copyright &copy; #{new Date().getFullYear()} Travis Valenti, James Wright, Tom Williams
+    head
+        title Drones Doing Drone Things
+        link(rel='stylesheet', href='/css/index.css')
+        script(src='/js/server_fetch.js')
+        script(src='/js/renderDrones.js')
+        script(src='/js/selectDrones.js')
+        script(src='/js/gamepad.js')
+        script(src='/js/renderGamepads.js')
+    script(src='/js/gameClient.js')
+    body(onload='gameStart()')
+        h2(style={'text-align': 'center', 'margin-bottom': '50px'}) Drone Control
+        #game_div
+            #addButton(onclick='addDronesToGame()') ADD
+            #removeButton(onclick='removeDronesFromGame()') REMOVE
+        #gamepad_div
+            #bind_gamepad_button(onclick="bindGamepads()") BIND GAMEPADS
+        #selection_div
+            #selectAll_button(onclick='selectAll()') Select All
+        #control_div
+            for clientCommand in clientCommands
+                div(id=clientCommand.div_id onclick=`sendCommand(\"${clientCommand.action}\", ${defaultDegree})` style={'grid-area': clientCommand.div_id}) #{clientCommand.div_contents}
+        footer Copyright &copy; #{new Date().getFullYear()} Travis Valenti, James Wright, Tom Williams
