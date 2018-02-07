@@ -6,6 +6,7 @@ body {
 	"header"
 	"game"
 	"selection"
+	"gamepad"
 	"control"
 	"footer"
 	;
@@ -32,7 +33,8 @@ body {
 		".. .. forward forward .. .."
 		"left left stop stop right right"
 		".. .. back back .. .."
-		"ccw ccw lights lights cw cw"
+		"ccw ccw ccw cw cw cw"
+		"lights lights addtogame removefromgame reset reset"
 	;
 }
 #control_div div {
@@ -47,15 +49,22 @@ body {
 #selection_div {
 	grid-area: selection;
 	display: grid;
-	grid-column-gap: 5px;
-	grid-auto-columns: 100px;
-	grid-template-columns: repeat(10, auto);
+	grid-gap: 5px;
+	grid-auto-columns: repeat(6, 1fr);
+}
+
+#selection_div #selectAll_button {
+	border-bottom: 6px transparent solid;
+	border-top: 6px transparent solid;
+	display: none;
 }
 
 #selection_div div {
 	border-bottom: 6px #999 solid;
 	background-color: #bccbde;
 	padding: 5px;
+	border-top: 6px transparent solid;
+	grid-row: 2;
 }
 #selection_div div:hover {
 	background-color: #abbacd;
@@ -64,10 +73,57 @@ body {
 	border-bottom: 6px solid #f2b632 !important;
 }
 
-#game_div {
-	grid-area: game;
+.emergency {
+	border-top: 6px solid #eb5a46 !important;
 }
 
+#game_div {
+	grid-area: game;
+    display: grid;
+    grid-gap: 5px;
+    grid-auto-columns: 1fr 1fr 1fr 1fr;
+}
+#addButton, #removeButton {
+    font-size: 18px;
+    background-color: #bccbde;
+    text-align: center;
+    padding: 10px;
+    grid-row: 2;
+}
+#addButton:hover, #removeButton:hover {
+    background-color: #abbacd;
+}
+#game_div #addButton {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+#game_div #removeButton {
+    grid-column-start: 3;
+    grid-column-end: 5;
+
+}
+
+#gamepad_div {
+	grid-area: gamepad;
+	display: grid;
+	grid-gap: 5px;
+	grid-auto-columns: 100px;
+	grid-template-columns: repeat(5, 1fr);
+}
+#gamepad_div div {
+	border-bottom: 6px #999 solid;
+	background-color: #bccbde;
+	padding: 5px;
+	grid-row: 2;
+}
+#gamepad_div div:hover {
+	background-color: #abbacd;
+}
+#gamepad_div #bind_gamepad_button {
+		grid-row: 1;
+	border-bottom: 6px transparent solid;
+	border-top: 6px transparent solid;
+}
 footer {
 	grid-area: footer;
 	text-align: center;
