@@ -37,7 +37,10 @@ for(let i = 0; i < 10; i++) {
 				navdata[i] = data.demo;
 			}
             drones[i].getPngStream()
-                .on('error', console.log)
+                .on('error', error => {
+                    console.log(console.log(error))
+                    delete drones[i].getPngStream()
+                })
                 .on('data', pngBuffer => {images[i] = pngBuffer})
 		});
 }
@@ -53,8 +56,7 @@ const remove = (id) => {
     if(!(id in list)) return;
     console.log(`Drone ${id} disconnected`);
     delete list[id];
-	  if(navdata[id]) delete navdata[id];
-    delete pngStreams[id];
+	if(navdata[id]) delete navdata[id];
 
 };
 
