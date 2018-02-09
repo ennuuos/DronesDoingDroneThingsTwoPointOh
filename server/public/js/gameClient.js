@@ -4,7 +4,7 @@ let score_divs = {};
 
 const startGame = () => {
 	let game_div = document.getElementById('game_div');
-    game_div.style = "display:grid; text-align: center; vertical-align:middle; font-size: 40px;";
+    game_div.style = "display:grid; text-align: center; vertical-align:middle; font-size: 140px;";
 
     setInterval(() => {
         fetchScores();
@@ -16,10 +16,10 @@ const createDiv = function(id) {
     let game_div = document.getElementById('game_div');
     score_divs[id] = document.createElement('div');
     let styles = {
-        0: "color: red; grid-column: 1;",
-        1: "color: green; grid-column: 2;",
-        2: "color: blue; grid-column: 3;",
-        3: "color: black; grid-column: 4;",
+        1: "color: red; grid-column: 1; grid-row: 1;",
+        2: "color: green; grid-column: 2; grid-row: 1;",
+        3: "color: blue; grid-column: 3; grid-row: 1;",
+        4: "color: black; grid-column: 4; grid-row: 1;",
     };
     score_divs[id].style = styles[id];
     console.log(score_divs[id]);
