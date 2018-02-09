@@ -13,3 +13,5 @@ const sendContainsDrone = containsDrone => {
     fetch('/game/referee/' + (containsDrone ? 'yes': 'no'), { method: 'POST'})
     updateImage();
 };
+
+setInterval(updateImage, 500);

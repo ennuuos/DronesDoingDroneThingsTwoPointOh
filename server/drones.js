@@ -37,10 +37,12 @@ for(let i = 0; i < 10; i++) {
 				if(!navdata[i]) console.log(`Drone ${i} connected`);
 				navdata[i] = data.demo;
 			}
-            drones[i].getPngStream()
-                .on('error', console.log)
+      if(config.game === 'photo') {
+            pngStreams[i] = drones[i].getPngStream()
+                //.on('error', console.log)
                 .on('data', pngBuffer => {images[i] = pngBuffer})
-            drones[i].getVideoStream();
+            videoStreams[i] = drones[i].getVideoStream();
+      }
 		});
 }
 
