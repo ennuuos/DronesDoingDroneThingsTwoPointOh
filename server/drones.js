@@ -9,6 +9,7 @@ const addrPrefix = config.network.ip_base;
 let list = {};
 let navdata = {};
 let drones = {};
+var pngStreams = {};
 var videoStreams = {};
 var images = {};
 
@@ -36,9 +37,10 @@ for(let i = 0; i < 10; i++) {
 				if(!navdata[i]) console.log(`Drone ${i} connected`);
 				navdata[i] = data.demo;
 			}
-            drones[i].getPngStream()
-                .on('error', console.log)
+            pngStreams[i] = drones[i].getPngStream()
+                //.on('error', console.log)
                 .on('data', pngBuffer => {images[i] = pngBuffer})
+            videoStreams[i] = drones[i].getVideoStream();
 		});
 }
 
@@ -55,6 +57,7 @@ const remove = (id) => {
     delete list[id];
 	  if(navdata[id]) delete navdata[id];
     delete pngStreams[id];
+    delete videoStreams[id];
 
 };
 
