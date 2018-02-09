@@ -1,0 +1,33 @@
+#yesButton, #noButton {
+    	background-color: #bccbde;
+    	padding: 20px;
+    	vertical-align: middle;
+        font-size: 36px;
+        padding: 5px;
+        text-align: center;
+}
+
+#yesButton:hover, #noButton:hover {
+	background-color: #abbacd;
+}
+
+body {
+    display: grid;
+    grid-template-areas:
+    "yes no"
+    "image image";
+    grid-gap: 10px;
+}
+
+#yesButton {
+    grid-area: yes;
+    color: green;
+}
+#noButton {
+    grid-area: no;
+    color: red;
+}
+body img {
+    margin: auto;
+    grid-area: image;
+}
